@@ -31,7 +31,11 @@ export const STATUS: Record<RequestStatus, StatusDef> = {
   onboarding: { label: 'In onboarding', bg: 'var(--status-pre-approved-bg)', fg: 'var(--status-pre-approved)', icon: 'circle-check' },
   withdrawn: { label: 'Withdrawn', bg: 'var(--muted)', fg: 'var(--muted-foreground)', icon: 'circle-x' },
   closed: { label: 'Closed — no response', bg: 'var(--muted)', fg: 'var(--muted-foreground)', icon: 'circle-x' },
+  complete: { label: 'Completed', bg: 'var(--status-pre-approved-bg)', fg: 'var(--status-pre-approved)', icon: 'circle-check' },
 };
+
+/** Tradesman-facing kiosk URL handed to the iPad when a session link is copied. */
+export const KIOSK_SESSION_URL = 'https://onboarding.accoes.com/session/new?device=ipad-04';
 
 export const FILTER_DEFS: [string, string][] = [
   ['all', 'All statuses'], ['awaiting', 'Awaiting union response'], ['overdue', 'Response overdue'], ['partial', 'Partially filled'], ['onboarding', 'In onboarding'],
@@ -347,6 +351,31 @@ export function buildSuperHistory(): HistoryRow[] {
     });
   }
   return rows;
+}
+
+/** Rebuild a closed labor request from its reports-history row (superintendent view). */
+export function historyRowToRequest(h: HistoryRow): LaborRequest {
+  const cut = h.detail.lastIndexOf(' — ');
+  const site = cut > -1 ? h.detail.slice(0, cut) : h.detail;
+  const clsTxt = cut > -1 ? h.detail.slice(cut + 3) : '1 Journeyman Plumber';
+  const n = parseInt(clsTxt, 10) || 1;
+  const trade = clsTxt.replace(/^\d+\s*/, '');
+  const level = trade.startsWith('Foreman') ? 'Foreman' : 'Journeyman';
+  const statusMap: Record<string, RequestStatus> = { Completed: 'complete', 'Partially filled': 'partial', Closed: 'closed', Withdrawn: 'withdrawn' };
+  const got = h.outcome === 'Completed' ? n : h.outcome === 'Partially filled' ? Math.max(1, n - 1) : 0;
+  const union = UNIONS[(parseInt(h.ref.slice(-2), 10) || 0) % UNIONS.length];
+  return {
+    id: h.ref, owner: 'Miguel Santos', site, cls: `${n} ${trade}`, filled: got, total: n,
+    status: statusMap[h.outcome] || 'closed', submitted: h.date, by: 'msantos', emailed: true, pendNote: '', pendBadge: '', hist: true,
+    fields: [F('Labor requestor', 'Miguel Santos'), F('Onboarding specialist', 'Dana Whitfield'), F('Start date & time', `${h.date} · 6:00 AM`), F('Expiration', 'Until filled'), F('Supervisor', '—'), F('Department', '2018-ACC-Virtual Construction-Hy'), F('Location', 'CA'), F('Special instructions', 'None')],
+    siteFields: [F('Job site name', site), F('Job site address', '—'), F('Site instructions', 'None'), F('Contact name', '—')],
+    classes: [{ code: trade.split(' ').map((w) => w[0]).join('').toUpperCase().slice(0, 4), trade: trade.replace(/^(Jrny|Foreman)\s*/, ''), level, title: trade, open: n, got, union }],
+    activity: [
+      { t: h.date, label: `Submitted — ${n} HCM labor record${n > 1 ? 's' : ''} created via the HCM connection` },
+      { t: h.date, label: h.confirm },
+      { t: h.date, label: `Record closed to history — ${h.outcome}` },
+    ],
+  };
 }
 
 export function buildSpecialistHistory(): HistoryRow[] {

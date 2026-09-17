@@ -8,6 +8,7 @@ import { RequestDetail } from './screens/RequestDetail';
 import { Emails } from './screens/Emails';
 import { MyProfile } from './screens/MyProfile';
 import { Reports } from './screens/Reports';
+import { ReportRecord } from './screens/ReportRecord';
 import { OnboardingList } from './screens/OnboardingList';
 import { Onboarding } from './screens/onboarding/Onboarding';
 
@@ -30,6 +31,7 @@ export function App() {
         <Route path="drafts/:key" element={<LaborRequestForm mode="draft" />} />
         <Route path="emails" element={<Emails />} />
         <Route path="reports" element={<Reports />} />
+        <Route path="reports/record/:ref" element={<ReportRecord />} />
         <Route path="profile" element={<MyProfile />} />
         <Route path="onboardings" element={<OnboardingList />} />
         <Route path="onboarding" element={<Onboarding />} />

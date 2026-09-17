@@ -185,9 +185,12 @@ export function LaborRequestForm({ mode }: { mode: FormMode }) {
               <span className="label">Hiring manager<span className="req"> *</span></span>
               <SelectMenu ariaLabel="Hiring manager" value={form.hm} placeholder="Select…" options={OPTS.hm} onChange={(v) => set('hm', v)} />
             </div>
-            <div className="field">
+            <div className="field date-field">
               <span className="label">Start date and start time<span className="req"> *</span></span>
               <input className="input" aria-label="Start date and start time" placeholder="MM/DD/YYYY · HH:MM" value={form.start} onChange={(e) => set('start', e.target.value)} />
+              <input type="date" aria-label="Pick start date from calendar" title="Pick from calendar"
+                onChange={(e) => { const v = e.target.value; if (!v) return; const [y, m, dd] = v.split('-'); const time = (form.start.split('·')[1] || ' 6:00 AM').trim(); set('start', `${m}/${dd}/${y} · ${time}`); }} />
+              <Icon name="calendar" size={14} />
             </div>
             <div className="field">
               <span className="label">Expiration<span className="req"> *</span></span>

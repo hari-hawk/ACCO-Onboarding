@@ -1,8 +1,8 @@
 import type { CSSProperties } from 'react';
 import {
-  ArrowDown, ArrowLeftRight, ArrowRight, ArrowUp, ArrowUpDown, Bell, Camera, Check, ChevronDown, ChevronLeft, ChevronRight,
+  ArrowDown, ArrowLeftRight, ArrowRight, ArrowUp, ArrowUpDown, Bell, Calendar, Camera, Check, ChevronDown, ChevronLeft, ChevronRight,
   CircleCheck, CircleX, ClipboardCheck, Clock, Copy, Download, ExternalLink, Eye, FileStack, FileText, Filter, Forward, History,
-  Inbox, Info, LayoutDashboard, LoaderCircle, Lock, LogIn, LogOut, Mail, MailOpen, MessageSquare, Minus, Paperclip, Pause, Pencil,
+  Inbox, Info, LayoutDashboard, Link, LoaderCircle, Lock, LockOpen, LogIn, LogOut, Mail, MailOpen, MessageSquare, Minus, Paperclip, Pause, Pencil,
   Play, Plus, Reply, ReplyAll, RotateCw, Save, Scan, ScanSearch, Send, ShieldCheck, Sparkles, Timer, Trash2, TrendingDown,
   TrendingUp, TriangleAlert, Upload, User, UserPlus, Users, X, ZoomIn, ZoomOut,
   type LucideIcon, type LucideProps,
@@ -13,7 +13,7 @@ import {
    line here when a screen needs a new glyph. */
 const REGISTRY: Record<string, LucideIcon> = {
   'arrow-down': ArrowDown, 'arrow-left-right': ArrowLeftRight, 'arrow-right': ArrowRight, 'arrow-up': ArrowUp, 'arrow-up-down': ArrowUpDown,
-  bell: Bell, camera: Camera, check: Check, 'chevron-down': ChevronDown, 'chevron-left': ChevronLeft, 'chevron-right': ChevronRight,
+  bell: Bell, calendar: Calendar, camera: Camera, check: Check, link: Link, unlock: LockOpen, 'lock-open': LockOpen, 'chevron-down': ChevronDown, 'chevron-left': ChevronLeft, 'chevron-right': ChevronRight,
   'circle-check': CircleCheck, 'circle-x': CircleX, 'clipboard-check': ClipboardCheck, clock: Clock, copy: Copy, download: Download,
   'external-link': ExternalLink, eye: Eye, 'file-stack': FileStack, 'file-text': FileText, filter: Filter, forward: Forward, history: History,
   inbox: Inbox, info: Info, 'layout-dashboard': LayoutDashboard, 'loader-2': LoaderCircle, 'loader-circle': LoaderCircle, lock: Lock,

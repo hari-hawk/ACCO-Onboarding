@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Avatar, Button, Icon } from '../ds';
-import { STATUS, TEAM_ADDRESS, UNIONS, UNION_EMAILS } from '../lib/data';
+import { STATUS, TEAM_ADDRESS, UNIONS, UNION_EMAILS, buildSuperHistory, historyRowToRequest } from '../lib/data';
 import type { EmailRec, KV, LaborRequest } from '../lib/types';
 import { useAccount, useActiveEmail, useApp, useEmails, useRequests } from '../store/app';
 import { unionCode, unionShort } from '../lib/utils';
@@ -9,6 +9,8 @@ import { Pill } from '../components/Pill';
 import { Modal, Scrim } from '../components/Modal';
 
 interface Draft { from: string; to: string; cc: string; subject: string; body: string }
+
+const SUPER_HISTORY = buildSuperHistory();
 
 function requestUnions(r: LaborRequest): string[] {
   const set: string[] = [];
@@ -72,18 +74,21 @@ export function RequestDetail() {
   const [mdFiles, setMdFiles] = useState<string[]>([]);
   const mdRef = useRef<HTMLInputElement>(null);
 
-  const sel = reqs.find((r) => r.id === id);
+  /* Live request first; otherwise a closed record opened from Reports, rebuilt read-only. */
+  const histRow = SUPER_HISTORY.find((h) => h.ref === id);
+  const sel = reqs.find((r) => r.id === id) ?? (histRow ? historyRowToRequest(histRow) : undefined);
   if (!sel) return <Navigate to="/dashboard" replace />;
 
   const st = STATUS[sel.status];
   const isOwner = !sel.owner || sel.owner === acct.name;
   const closedOut = sel.status === 'withdrawn' || sel.status === 'closed';
-  const editable = !closedOut && isOwner;
+  const editable = !closedOut && isOwner && !sel.hist;
+  const viewOnlyLabel = sel.hist ? 'View only — historical record' : `View only — owned by ${sel.owner}`;
   const selUnions = requestUnions(sel);
   const overdue = sel.status === 'overdue';
   const withdrawLabel = overdue ? 'Close request' : 'Withdraw request';
-  const mdShow = acctKey === 'miguel' && editable && !sel.response;
-  const mdMini = acctKey === 'miguel' && editable && !!sel.response;
+  const mdShow = acctKey === 'miguel' && editable && !sel.hist && !sel.response;
+  const mdMini = acctKey === 'miguel' && editable && !sel.hist && !!sel.response;
   const mdSent = !!mdSentFor[sel.id];
   const transferCls = transferIdx !== null ? sel.classes[transferIdx] : null;
 
@@ -172,10 +177,10 @@ export function RequestDetail() {
     <div className="page-fill">
       <div className="page-bar" style={{ flexWrap: 'wrap' }}>
         <div className="row" style={{ gap: 12, flexWrap: 'wrap' }}>
-          <button type="button" className="icon-btn s32" aria-label="Back to dashboard" onClick={() => navigate('/dashboard')}><Icon name="chevron-left" size={16} /></button>
+          <button type="button" className="icon-btn s32" aria-label={sel.hist ? 'Back to reports' : 'Back to dashboard'} onClick={() => navigate(sel.hist ? '/reports' : '/dashboard')}><Icon name="chevron-left" size={16} /></button>
           <h1 className="h1">Labor request <span className="mono" style={{ color: 'var(--primary)' }}>{sel.id}</span></h1>
           <Pill bg={st.bg} fg={st.fg} icon={st.icon} style={{ padding: '2px 10px' }}>{st.label}</Pill>
-          {!isOwner && <Pill tone="muted" icon="eye" style={{ padding: '2px 10px' }}>View only — owned by {sel.owner}</Pill>}
+          {(!isOwner || sel.hist) && <Pill tone="muted" icon="eye" style={{ padding: '2px 10px' }}>{viewOnlyLabel}</Pill>}
         </div>
         <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
           <span className="hint" style={{ marginRight: 8 }}><strong style={{ color: 'var(--foreground)' }}>Submitted</strong> {sel.submitted} · <strong style={{ color: 'var(--foreground)' }}>Filled</strong> <span className="mono">{sel.filled} / {sel.total}</span></span>

@@ -1,4 +1,5 @@
 import { Button, Icon } from '../../ds';
+import { DOCDEFS } from '../../lib/data';
 import { useOnboarding } from '../../store/onboarding';
 import { useObDerived } from './derived';
 
@@ -8,6 +9,9 @@ export function Profile() {
   const setStage = useOnboarding((s) => s.setStage);
   const goSign = useOnboarding((s) => s.goSign);
   const openPin = useOnboarding((s) => s.openPin);
+  const openDv = useOnboarding((s) => s.openDv);
+  const fileUrls = useOnboarding((s) => s.fileUrls);
+  const sourceDocs = DOCDEFS.filter((def) => d.docReady(def.key)).map((def) => ({ def, name: d.docs[def.key].files[0]?.name || def.title }));
 
   return (
     <div className="page" style={{ gap: 12 }}>
@@ -51,6 +55,18 @@ export function Profile() {
               <span className="label-sm">{f.k}</span>
               <span style={{ fontSize: 12, fontWeight: 500 }}>{f.v}</span>
             </div>
+          ))}
+        </div>
+        <div className="row" style={{ gap: 10, padding: '12px 24px', borderTop: '1px solid var(--border)', flexWrap: 'wrap' }}>
+          <span className="overline">Source documents</span>
+          {sourceDocs.map(({ def, name }) => (
+            <button key={def.key} type="button" title="Preview document" className="btn-outline-xs" style={{ height: 'auto', padding: '6px 10px', gap: 8, fontWeight: 500 }}
+              onClick={() => openDv({ name, kind: def.key, url: fileUrls[name] || '' })}>
+              <Icon name="file-text" size={13} style={{ color: 'var(--primary)' }} />
+              <span style={{ fontSize: 12 }}>{def.title}</span>
+              <span className="hint">{name}</span>
+              <Icon name="eye" size={13} style={{ color: 'var(--muted-foreground)' }} />
+            </button>
           ))}
         </div>
       </div>

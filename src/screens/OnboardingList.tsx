@@ -6,6 +6,7 @@ import type { Session, SortState } from '../lib/types';
 import { useApp } from '../store/app';
 import { useOnboarding } from '../store/onboarding';
 import { useOutsideClose } from '../components/hooks';
+import { useSessionLink } from '../components/useSessionLink';
 import { SortHeaders, sortBy } from '../components/SortHeaders';
 import { Pill } from '../components/Pill';
 import { EmptyState } from '../components/EmptyState';
@@ -27,6 +28,7 @@ export function OnboardingList() {
   const menuRef = useRef<HTMLDivElement>(null);
   useOutsideClose(menuRef, !!menuFor, useCallback(() => setMenuFor(null), []));
   const specialist = key === 'dana';
+  const kiosk = useSessionLink();
 
   const sessions = useMemo<Session[]>(() => {
     if (!specialist) return [];
@@ -51,7 +53,12 @@ export function OnboardingList() {
           <h1 className="h1">Onboardings</h1>
           <span className="sub">Every extraction session is saved continuously — the 30-minute timer pauses with it, so any session resumes exactly where it stopped.</span>
         </div>
-        {newBtn}
+        <div className="row" style={{ gap: 8 }}>
+          <button type="button" className="icon-btn" aria-label={kiosk.label} title={kiosk.label} onClick={kiosk.copy} style={{ width: 36, height: 36, borderRadius: 6 }}>
+            <Icon name={kiosk.icon} size={15} />
+          </button>
+          {newBtn}
+        </div>
       </div>
       <div className="kpi-grid">
         <StatCard label="In extraction queue" value={String(2 + obQueue.length)} icon="file-stack" footer={obQueue.length ? `${obQueue.length} just moved by the superintendent` : 'Confirmed dispatches awaiting extraction'} />

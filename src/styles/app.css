@@ -50,6 +50,7 @@ svg { display: block; }
 @media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .kpi-grid { grid-template-columns: 1fr; } }
 .two-col { display: grid; gap: 16px; align-items: start; }
+@media (max-width: 720px) { .kv-grid-3 { grid-template-columns: 1fr !important; } }
 @media (max-width: 1000px) { .two-col { grid-template-columns: 1fr !important; } }
 
 /* ── Data rows ─────────────────────────────────────────────────────────── */
@@ -58,8 +59,9 @@ svg { display: block; }
 .th-btn:hover { color: var(--foreground); }
 .th-btn.on { color: var(--primary); }
 .trow { display: grid; gap: 12px; align-items: center; padding: 11px 20px; border: none; border-bottom: 1px solid var(--border); background: var(--card); text-align: left; width: 100%; color: inherit; font: inherit; }
-button.trow { cursor: pointer; }
+button.trow { cursor: pointer; transition: background 100ms var(--ease-standard); }
 button.trow:hover { background: var(--muted); }
+button.trow:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
 .list-row { display: flex; align-items: center; gap: 10px; padding: 11px 20px; border: none; border-bottom: 1px solid var(--border); background: var(--card); cursor: pointer; text-align: left; width: 100%; color: inherit; font: inherit; }
 .list-row:hover { background: var(--muted); }
 .table-scroll { overflow-x: auto; }
@@ -171,10 +173,26 @@ button.trow:hover { background: var(--muted); }
 .notice-ok { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--status-pre-approved-bg); border: 1px solid var(--status-pre-approved); border-radius: 12px; }
 
 /* Login */
-.login { min-height: 100vh; display: grid; grid-template-columns: 2fr 1fr; }
+.login { min-height: 100vh; display: grid; grid-template-columns: 1.85fr 1fr; }
 @media (max-width: 900px) { .login { grid-template-columns: 1fr; } .login-hero { display: none !important; } }
 .login-hero { background: var(--hero-gradient); position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 56px 64px; overflow: hidden; }
-.login-panel { background: linear-gradient(160deg,#101828 0%,#131E36 55%,#0E1A30 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 48px; border-left: 1px solid rgba(255,255,255,.08); position: relative; }
+.login-panel { background: #101828; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 48px; position: relative; }
+
+/* Skip link — visible only on keyboard focus (WCAG 2.4.1) */
+.skip-link { position: absolute; top: -100px; left: 16px; z-index: 1000; padding: 8px 12px; background: var(--card); color: var(--primary); border: 1px solid var(--border-strong); border-radius: 8px; font-size: 12px; font-weight: 600; }
+.skip-link:focus { top: 12px; }
+
+/* Kiosk session banner and toast */
+.kiosk-bar { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 7px 24px; background: var(--ds-bg-gold-light, #FDF6E3); border-bottom: 1px solid var(--accent-gold); color: var(--accent-gold-text); font-size: 12px; font-weight: 500; flex-wrap: wrap; text-align: center; }
+.kiosk-bar button { border: none; background: none; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--primary); text-decoration: underline; padding: 0; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: var(--z-toast); display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--foreground); color: var(--background); border-radius: 10px; box-shadow: var(--elev-4); font-size: 12px; font-weight: 500; max-width: min(520px, calc(100vw - 32px)); }
+
+/* Text field with a native calendar picker overlaid on its right edge */
+.date-field { position: relative; }
+.date-field .input { padding-right: 34px; }
+.date-field input[type="date"] { position: absolute; right: 5px; bottom: 4px; width: 24px; height: 24px; opacity: 0; cursor: pointer; z-index: 2; }
+.date-field input[type="date"]:focus-visible + svg { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
+.date-field > svg { position: absolute; right: 10px; bottom: 9px; color: var(--muted-foreground); pointer-events: none; z-index: 1; }
 .ms-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 44px; border: none; border-radius: 8px; background: #fff; cursor: pointer; font-size: 13px; font-weight: 600; color: #1A1F2E; box-shadow: var(--elev-2); }
 .ms-btn:hover { opacity: .9; }
 .hero-tag { padding: 5px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.08); color: rgba(255,255,255,.9); font-size: 12px; font-weight: 500; }

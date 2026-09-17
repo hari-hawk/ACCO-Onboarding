@@ -15,7 +15,7 @@ export interface Account {
   doneF: string;
 }
 
-export type RequestStatus = 'awaiting' | 'overdue' | 'partial' | 'onboarding' | 'withdrawn' | 'closed';
+export type RequestStatus = 'awaiting' | 'overdue' | 'partial' | 'onboarding' | 'withdrawn' | 'closed' | 'complete';
 
 export interface StatusDef { label: string; bg: string; fg: string; icon: string }
 
@@ -74,6 +74,8 @@ export interface LaborRequest {
   classes: Classification[];
   activity: Activity[];
   movedToOb?: boolean;
+  /** Reconstructed from the reports history — read-only, actions disabled. */
+  hist?: boolean;
 }
 
 export interface EmailRec {

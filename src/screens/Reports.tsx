@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Icon, StatCard } from '../ds';
 import {
   OUTCOME_STYLE, RANGE_DAYS, RANGE_LABEL, RANGE_TABS, REPORT_TODAY, REPORT_UNIONS, SPECIALIST_METRICS, SUPER_METRICS,
@@ -18,8 +19,11 @@ const SUPER_HISTORY = buildSuperHistory();
 const SPECIALIST_HISTORY = buildSpecialistHistory();
 
 export function Reports() {
+  const navigate = useNavigate();
   const key = useApp((s) => s.account)!;
   const specialist = key === 'dana';
+  /* A history row opens read-only: the specialist sees the filed record, the superintendent the closed request. */
+  const openRow = (ref: string) => navigate(key === 'miguel' ? `/requests/${ref}` : `/reports/record/${ref}`);
   const [range, setRange] = useState<ReportRange>('month');
   const [sort, setSort] = useState<SortState<HKey>>({ key: null, dir: 1 });
   const [page, setPage] = useState(1);
@@ -110,13 +114,13 @@ export function Reports() {
                 {pageRows.map((h) => {
                   const o = OUTCOME_STYLE[h.outcome] ?? OUTCOME_STYLE.Completed;
                   return (
-                    <div key={h.ref} className="trow" style={{ gridTemplateColumns: COLS, gap: 10 }}>
+                    <button key={h.ref} type="button" className="trow" aria-label={`Open record ${h.ref}`} style={{ gridTemplateColumns: COLS, gap: 10 }} onClick={() => openRow(h.ref)}>
                       <span className="mono" style={{ fontSize: 12, fontWeight: 600, color: 'var(--primary)' }}>{h.ref}</span>
                       <span className="truncate" style={{ fontSize: 12 }}>{h.detail}</span>
                       <span className="hint" style={{ lineHeight: 1.4 }}>{h.confirm}</span>
                       <span className="mono" style={{ fontSize: 11 }}>{h.date}</span>
                       <Pill bg={o.bg} fg={o.fg} icon={o.icon} style={{ justifySelf: 'start' }}>{h.outcome}</Pill>
-                    </div>
+                    </button>
                   );
                 })}
               </div>

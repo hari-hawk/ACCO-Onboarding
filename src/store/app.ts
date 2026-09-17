@@ -23,6 +23,8 @@ export interface AppState {
   /** The specialist's verification PIN. */
   pin: string;
   emailGroupCollapsed: Record<string, boolean>;
+  /** A tradesman session link was copied: this device is limited to New onboarding. */
+  kioskActive: boolean;
 
   signIn: (key: AccountKey, email?: string | null) => void;
   signOut: () => void;
@@ -39,6 +41,7 @@ export interface AppState {
   setStatusOverride: (key: string, idx: number) => void;
   markMdSent: (id: string) => void;
   setPin: (pin: string) => void;
+  setKiosk: (on: boolean) => void;
 }
 
 /* Persisted to sessionStorage so a reload or a deep link keeps the signed-in workspace
@@ -56,9 +59,10 @@ export const useApp = create<AppState>()(persist((set, get) => ({
   mdSentFor: {},
   pin: DEMO_PIN,
   emailGroupCollapsed: {},
+  kioskActive: false,
 
   signIn: (key, email = null) => set({ account: key, pendingEmail: email }),
-  signOut: () => set({ account: null, pendingEmail: null }),
+  signOut: () => set({ account: null, pendingEmail: null, kioskActive: false }),
 
   updateRequest: (id, fn) => {
     const { account } = get();
@@ -108,6 +112,7 @@ export const useApp = create<AppState>()(persist((set, get) => ({
   setStatusOverride: (key, idx) => set((s) => ({ obStatusOv: { ...s.obStatusOv, [key]: idx } })),
   markMdSent: (id) => set((s) => ({ mdSentFor: { ...s.mdSentFor, [id]: true } })),
   setPin: (pin) => set({ pin }),
+  setKiosk: (on) => set({ kioskActive: on }),
 }), { name: 'acco-onboarding-workspace', storage: createJSONStorage(() => sessionStorage) }));
 
 /* ── Selectors ───────────────────────────────────────────────────────── */

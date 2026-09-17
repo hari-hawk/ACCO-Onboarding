@@ -4,6 +4,7 @@ import { OB_STAGES } from '../../lib/data';
 import { useApp } from '../../store/app';
 import { stageKey, useOnboarding } from '../../store/onboarding';
 import { Pill } from '../../components/Pill';
+import { useSessionLink } from '../../components/useSessionLink';
 import { useObDerived } from './derived';
 import { IdentityCheck } from './IdentityCheck';
 import { Extract } from './Extract';
@@ -26,6 +27,7 @@ export function Onboarding() {
   const stage = useOnboarding((s) => s.stage);
   const selectStage = useOnboarding((s) => s.selectStage);
   const d = useObDerived();
+  const kiosk = useSessionLink();
   const back = () => navigate(key === 'dana' ? '/onboardings' : '/dashboard');
 
   return (
@@ -39,6 +41,7 @@ export function Onboarding() {
             {d.ctx.prefilled && <Pill tone="navy" icon="mail">Dispatch received via union email</Pill>}
           </div>
           <div className="row" style={{ gap: 8 }}>
+            {stage !== 'filed' && <Button variant="outline" size="sm" iconLeft={kiosk.icon} onClick={kiosk.copy}>{kiosk.label}</Button>}
             {stage !== 'filed' && <Button variant="outline" size="sm" iconLeft="save" onClick={() => navigate('/onboardings')}>Save &amp; resume</Button>}
           </div>
         </div>

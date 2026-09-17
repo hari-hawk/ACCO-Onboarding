@@ -3,8 +3,10 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Icon, NavBar } from '../ds';
 import { MIGUEL_NOTIFS } from '../lib/data';
 import { useAccount, useActiveEmail, useApp } from '../store/app';
+import { useUi } from '../store/ui';
 import { useOutsideClose } from './hooks';
 import { Modal, Scrim } from './Modal';
+import { useSessionLink } from './useSessionLink';
 import { randomPin } from '../lib/utils';
 
 type PmStep = 'view' | 'ms' | 'busy' | 'new';
@@ -26,6 +28,10 @@ export function AppShell() {
   const popRef = useRef<HTMLDivElement>(null);
   const closeAll = useCallback(() => { setMenuOpen(false); setNotifOpen(false); }, []);
   useOutsideClose(popRef, menuOpen || notifOpen, closeAll);
+  const kiosk = useSessionLink();
+  const toast = useUi((s) => s.toast);
+  /* In kiosk mode every control outside New onboarding is refused with a toast. */
+  const guarded = (fn: () => void) => () => { if (kiosk.active) kiosk.restricted(); else fn(); };
 
   const isSpecialist = key === 'dana';
   const navItems = isSpecialist
@@ -46,15 +52,16 @@ export function AppShell() {
 
   return (
     <div className="app">
-      <NavBar product="Onboarding" items={navItems} activeId={navActive} onSelect={(id) => { closeAll(); navigate(`/${id}`); }} style={{ zIndex: 'var(--z-dropdown)' as unknown as number }} right={
+      <a href="#main" className="skip-link">Skip to content</a>
+      <NavBar product="Onboarding" items={navItems} activeId={navActive} onSelect={(id) => { closeAll(); if (kiosk.active && id !== 'onboardings') { kiosk.restricted(); return; } navigate(`/${id}`); }} style={{ zIndex: 'var(--z-dropdown)' as unknown as number }} right={
         <div ref={popRef} data-popover="1" className="row nav-cluster" style={{ position: 'relative', gap: 8 }}>
-          <button type="button" className="nav-ctl" aria-label="Notifications" onClick={() => { setNotifOpen((o) => !o); setMenuOpen(false); }} style={{ position: 'relative', width: 32, height: 32, borderRadius: 8 }}>
+          <button type="button" className="nav-ctl" aria-label="Notifications" aria-expanded={notifOpen} onClick={guarded(() => { setNotifOpen((o) => !o); setMenuOpen(false); })} style={{ position: 'relative', width: 32, height: 32, borderRadius: 8 }}>
             <Icon name="bell" size={16} />
             {notifs.length > 0 && (
               <span style={{ position: 'absolute', top: -6, right: -6, minWidth: 16, height: 16, padding: '0 4px', borderRadius: 999, background: 'var(--destructive)', color: '#fff', fontSize: 10, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--nav)' }}>{notifs.length}</span>
             )}
           </button>
-          <button type="button" className="nav-ctl" aria-label="Account menu" onClick={() => { setMenuOpen((o) => !o); setNotifOpen(false); }} style={{ gap: 6, padding: '2px 10px 2px 4px', borderRadius: 999 }}>
+          <button type="button" className="nav-ctl" aria-label="Account menu" aria-expanded={menuOpen} onClick={guarded(() => { setMenuOpen((o) => !o); setNotifOpen(false); })} style={{ gap: 6, padding: '2px 10px 2px 4px', borderRadius: 999 }}>
             <span className="round-icon" style={{ width: 24, height: 24, background: '#fff', color: 'var(--nav)', fontSize: 10, fontWeight: 700, overflow: 'hidden' }}>
               {acct.photo ? <img src={acct.photo} alt="Profile photo" style={{ width: '100%', height: '100%', objectFit: 'cover', background: acct.photoBg || 'var(--muted)', padding: '8%', boxSizing: 'border-box' }} /> : acct.initials}
             </span>
@@ -106,9 +113,24 @@ export function AppShell() {
         </div>
       } />
 
-      <main className="app-main">
+      {kiosk.active && (
+        <div className="kiosk-bar" role="status">
+          <Icon name="lock" size={13} />
+          <span>Session link active — this device is limited to New onboarding until the session ends.</span>
+          <button type="button" onClick={kiosk.end}>End session</button>
+        </div>
+      )}
+
+      <main id="main" className="app-main" tabIndex={-1} style={{ outline: 'none' }}>
         <Outlet context={{ openPinMgr: () => setPinMgr('view') }} />
       </main>
+
+      {toast && (
+        <div className="toast" role="status" aria-live="polite">
+          <Icon name={toast.icon} size={14} />
+          <span>{toast.text}</span>
+        </div>
+      )}
 
       {pinMgr && (
         <Scrim onClose={() => setPinMgr(null)} zIndex={640}>

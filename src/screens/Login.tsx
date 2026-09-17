@@ -85,7 +85,7 @@ export function Login() {
       </div>
 
       <div className="login-panel">
-        <div className="col" style={{ width: 320, maxWidth: '100%', alignItems: 'center', gap: 20, textAlign: 'center' }}>
+        <div className="col" style={{ width: 340, maxWidth: '100%', alignItems: 'center', gap: 20, textAlign: 'center' }}>
           <Brand size={36} />
           <div className="col" style={{ gap: 6 }}>
             <span style={{ fontSize: 22, fontWeight: 700, letterSpacing: 'var(--ls-tight)', color: '#fff' }}>Sign In</span>
@@ -99,14 +99,14 @@ export function Login() {
             Sign in with Microsoft Entra ID
           </button>
           <span style={{ fontSize: 12, color: 'rgba(255,255,255,.65)' }}>Use your authorized account to sign in</span>
-          <div className="row" style={{ gap: 6 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, whiteSpace: 'nowrap' }}>
             <Icon name="shield-check" size={13} style={{ color: 'rgba(255,255,255,.5)' }} />
             <span style={{ fontSize: 11, color: 'rgba(255,255,255,.5)' }}>Enterprise-grade security — role from AD group membership</span>
           </div>
         </div>
 
         {popup !== 'closed' && (
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,#101828 0%,#131E36 55%,#0E1A30 100%)', zIndex: 'var(--z-modal)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <div style={{ position: 'absolute', inset: 0, background: '#101828', zIndex: 'var(--z-modal)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
             <div className="card" role="region" aria-label="Microsoft Entra ID sign-in" onClick={stop} style={{ width: 440, maxWidth: '100%', borderRadius: 12 }}>
               <div className="row" style={{ justifyContent: 'space-between', padding: '12px 16px', borderBottom: '1px solid var(--border)', background: 'var(--ds-bg-gray-light)' }}>
                 <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--muted-foreground)' }}>login.microsoftonline.com</span>

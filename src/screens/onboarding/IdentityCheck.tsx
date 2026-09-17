@@ -77,7 +77,12 @@ export function IdentityCheck() {
           <div className="field"><label htmlFor="pre-first" className="label">Legal first name<span className="req"> *</span></label><input id="pre-first" className="input" placeholder="First name" value={pre.first} onChange={(e) => setPre('first', e.target.value)} /></div>
           <div className="field"><label htmlFor="pre-last" className="label">Legal last name<span className="req"> *</span></label><input id="pre-last" className="input" placeholder="Last name" value={pre.last} onChange={(e) => setPre('last', e.target.value)} /></div>
           <div className="field"><label htmlFor="pre-ssn" className="label">SSN<span className="req"> *</span></label><input id="pre-ssn" className="input mono" placeholder="•••-••-••••" value={pre.ssn} onChange={(e) => setPre('ssn', e.target.value)} /></div>
-          <div className="field"><label htmlFor="pre-dob" className="label">Date of birth<span className="req"> *</span></label><input id="pre-dob" className="input mono" placeholder="MM/DD/YYYY" value={pre.dob} onChange={(e) => setPre('dob', e.target.value)} /></div>
+          <div className="field date-field">
+            <label htmlFor="pre-dob" className="label">Date of birth<span className="req"> *</span></label>
+            <input id="pre-dob" className="input mono" placeholder="MM/DD/YYYY" value={pre.dob} onChange={(e) => setPre('dob', e.target.value)} />
+            <input type="date" aria-label="Pick date of birth from calendar" title="Pick from calendar" onChange={(e) => { const v = e.target.value; if (!v) return; const [y, m, dd] = v.split('-'); setPre('dob', `${m}/${dd}/${y}`); }} />
+            <Icon name="calendar" size={14} />
+          </div>
         </div>
         <div className="card-foot" style={{ padding: '12px 24px' }}>
           <span className="hint">Checked against Oracle Fusion HCM the moment you submit — nothing is stored until a verdict returns.</span>
