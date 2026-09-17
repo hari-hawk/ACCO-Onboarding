@@ -2,6 +2,7 @@ import { Button, Icon } from '../../ds';
 import { PRE_SAMPLES } from '../../lib/data';
 import { useOnboarding, type PreDocKey } from '../../store/onboarding';
 import { Pill } from '../../components/Pill';
+import { DateTimePicker } from '../../components/DateTimePicker';
 
 const SLOTS: { key: PreDocKey; title: string; sub: string }[] = [
   { key: 'id', title: 'Photo ID / passport', sub: 'Photo and legal name are captured from the document' },
@@ -37,7 +38,7 @@ export function IdentityCheck() {
         <span style={{ fontSize: 16, fontWeight: 600, letterSpacing: 'var(--ls-tight)' }}>Identity check — before any documents</span>
         <span className="sub">Enter the tradesman's legal identity. HCM confirms instantly whether this is a new hire, a rehire with a record on file, or a Do Not Hire.</span>
       </div>
-      <div className="card">
+      <div className="card card-open">
         <div className="two-col" style={{ gridTemplateColumns: '1fr 1fr', gap: '12px 16px', padding: '16px 24px', borderBottom: '1px solid var(--border)' }}>
           {SLOTS.map((def) => {
             const d = preDocs[def.key];
@@ -77,11 +78,9 @@ export function IdentityCheck() {
           <div className="field"><label htmlFor="pre-first" className="label">Legal first name<span className="req"> *</span></label><input id="pre-first" className="input" placeholder="First name" value={pre.first} onChange={(e) => setPre('first', e.target.value)} /></div>
           <div className="field"><label htmlFor="pre-last" className="label">Legal last name<span className="req"> *</span></label><input id="pre-last" className="input" placeholder="Last name" value={pre.last} onChange={(e) => setPre('last', e.target.value)} /></div>
           <div className="field"><label htmlFor="pre-ssn" className="label">SSN<span className="req"> *</span></label><input id="pre-ssn" className="input mono" placeholder="•••-••-••••" value={pre.ssn} onChange={(e) => setPre('ssn', e.target.value)} /></div>
-          <div className="field date-field">
+          <div className="field">
             <label htmlFor="pre-dob" className="label">Date of birth<span className="req"> *</span></label>
-            <input id="pre-dob" className="input mono" placeholder="MM/DD/YYYY" value={pre.dob} onChange={(e) => setPre('dob', e.target.value)} />
-            <input type="date" aria-label="Pick date of birth from calendar" title="Pick from calendar" onChange={(e) => { const v = e.target.value; if (!v) return; const [y, m, dd] = v.split('-'); setPre('dob', `${m}/${dd}/${y}`); }} />
-            <Icon name="calendar" size={14} />
+            <DateTimePicker id="pre-dob" mono ariaLabel="Date of birth" placeholder="MM/DD/YYYY" value={pre.dob} onChange={(v) => setPre('dob', v)} />
           </div>
         </div>
         <div className="card-foot" style={{ padding: '12px 24px' }}>

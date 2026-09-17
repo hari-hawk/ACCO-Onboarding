@@ -187,12 +187,24 @@ button.trow:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px
 .kiosk-bar button { border: none; background: none; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--primary); text-decoration: underline; padding: 0; }
 .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: var(--z-toast); display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--foreground); color: var(--background); border-radius: 10px; box-shadow: var(--elev-4); font-size: 12px; font-weight: 500; max-width: min(520px, calc(100vw - 32px)); }
 
-/* Text field with a native calendar picker overlaid on its right edge */
-.date-field { position: relative; }
-.date-field .input { padding-right: 34px; }
-.date-field input[type="date"] { position: absolute; right: 5px; bottom: 4px; width: 24px; height: 24px; opacity: 0; cursor: pointer; z-index: 2; }
-.date-field input[type="date"]:focus-visible + svg { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
-.date-field > svg { position: absolute; right: 10px; bottom: 9px; color: var(--muted-foreground); pointer-events: none; z-index: 1; }
+/* Date / time picker: text field with a calendar popover */
+.dtp { position: relative; }
+.dtp > .input { padding-right: 34px; }
+.dtp-toggle { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 6px; background: none; color: var(--muted-foreground); cursor: pointer; padding: 0; }
+.dtp-toggle:hover { background: var(--muted); color: var(--foreground); }
+.dtp-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: var(--z-dropdown); width: 344px; max-width: calc(100vw - 32px); padding: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--elev-3); display: flex; flex-direction: column; gap: 8px; }
+.dtp-head { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; }
+.dtp-title { font-size: 13px; font-weight: 600; letter-spacing: var(--ls-tight); }
+.dtp-weekdays, .dtp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.dtp-weekdays span { text-align: center; font-size: 11px; font-weight: 500; color: var(--muted-foreground); padding: 4px 0 2px; }
+.dtp-day { height: 36px; border: 1px solid transparent; border-radius: 999px; background: none; font-family: inherit; font-size: 12px; font-weight: 500; color: var(--foreground); cursor: pointer; font-variant-numeric: tabular-nums; }
+.dtp-day:hover { background: var(--muted); }
+.dtp-day.out { color: var(--muted-foreground); opacity: .7; }
+.dtp-day.today { border-color: var(--border-strong); }
+.dtp-day.on { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+.dtp-day:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
+.dtp-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+.dtp-time { width: auto; height: 32px; font-family: var(--font-mono); }
 .ms-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 44px; border: none; border-radius: 8px; background: #fff; cursor: pointer; font-size: 13px; font-weight: 600; color: #1A1F2E; box-shadow: var(--elev-2); }
 .ms-btn:hover { opacity: .9; }
 .hero-tag { padding: 5px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.08); color: rgba(255,255,255,.9); font-size: 12px; font-weight: 500; }
