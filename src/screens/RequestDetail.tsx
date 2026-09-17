@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Avatar, Button, Icon } from '../ds';
 import { STATUS, TEAM_ADDRESS, UNIONS, UNION_EMAILS, buildSuperHistory, historyRowToRequest } from '../lib/data';
+import { SHOW_NEXT_STEP_GUIDANCE } from '../lib/flags';
 import type { EmailRec, KV, LaborRequest } from '../lib/types';
 import { useAccount, useActiveEmail, useApp, useEmails, useRequests } from '../store/app';
 import { unionCode, unionShort } from '../lib/utils';
@@ -34,7 +35,7 @@ function buildEmail(r: LaborRequest, acctName: string, union: string | null) {
 function KVGrid({ title, fields, right }: { title: string; fields: KV[]; right?: string }) {
   return (
     <div className="card">
-      <div className="card-head card-head-xs"><h3 className="h3">{title}</h3>{right && <span className="hint">{right}</span>}</div>
+      <div className="card-head card-head-xs"><h2 className="h3">{title}</h2>{right && <span className="hint">{right}</span>}</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '12px 16px', padding: '12px 20px' }}>
         {fields.map((f) => (
           <div key={f.k} className="col" style={{ gap: 2 }}>
@@ -208,7 +209,7 @@ export function RequestDetail() {
             <KVGrid title="Request details" fields={sel.fields} />
             <KVGrid title="Job site & legal employer" fields={sel.siteFields} />
             <div className="card">
-              <div className="card-head card-head-xs"><h3 className="h3">Classifications</h3><span className="hint">Complete a row, or reopen the remainder as a subticket to another union</span></div>
+              <div className="card-head card-head-xs"><h2 className="h3">Classifications</h2><span className="hint">Complete a row, or reopen the remainder as a subticket to another union</span></div>
               <div className="table-scroll">
                 <div style={{ minWidth: 900 }}>
                   {sel.classes.map((c, i) => {
@@ -269,7 +270,7 @@ export function RequestDetail() {
           <div className="col" style={{ gap: 12 }}>
             {sel.response && (
               <div className="card" style={{ border: '1px solid var(--status-pre-approved)' }}>
-                <div className="card-head card-head-sm"><h3 className="h3">Union response</h3><Pill tone="navy" icon="sparkles" iconSize={11}>Parsed automatically</Pill></div>
+                <div className="card-head card-head-sm"><h2 className="h3">Union response</h2><Pill tone="navy" icon="sparkles" iconSize={11}>Parsed automatically</Pill></div>
                 <div className="col" style={{ gap: 10, padding: '12px 20px' }}>
                   <span style={{ fontSize: 12, lineHeight: 1.5 }}><strong>{sel.response.union}</strong> · {sel.response.time} — {sel.response.summary}</span>
                   <div className="col" style={{ gap: 6 }}>
@@ -365,10 +366,12 @@ export function RequestDetail() {
                 </div>
               ))}
             </div>
-            <div className="card col" style={{ padding: '16px 20px', gap: 8 }}>
-              <span className="overline">What happens next</span>
-              <span className="sub" style={{ lineHeight: 1.6 }}>Union replies are parsed automatically: confirmed dispatches complete their classification and move to the onboarding specialist's extraction queue. When a union fills only part of a request, transfer the remainder to another union as a subticket — it keeps this request as its parent.</span>
-            </div>
+            {SHOW_NEXT_STEP_GUIDANCE && (
+              <div className="card col" style={{ padding: '16px 20px', gap: 8 }}>
+                <span className="overline">What happens next</span>
+                <span className="sub" style={{ lineHeight: 1.6 }}>Union replies are parsed automatically: confirmed dispatches complete their classification and move to the onboarding specialist's extraction queue. When a union fills only part of a request, transfer the remainder to another union as a subticket — it keeps this request as its parent.</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -418,7 +421,7 @@ export function RequestDetail() {
           <Modal width={640} label="Email union" padded={false} style={{ maxHeight: 'calc(100vh - 48px)', overflow: 'hidden' }}>
             <div className="modal-head">
               <div className="row" style={{ gap: 10, flexWrap: 'wrap' }}>
-                <h3 style={{ fontSize: 15, fontWeight: 600 }}>Email union — {sel.id}</h3>
+                <h2 style={{ fontSize: 15, fontWeight: 600 }}>Email union — {sel.id}</h2>
                 <Pill tone="navy" icon="sparkles" iconSize={11}>Drafted by AI from the request record</Pill>
               </div>
               <button type="button" className="ghost-icon" aria-label="Close email draft" onClick={() => setEmailOpen(false)}><Icon name="x" size={15} /></button>

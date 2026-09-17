@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Icon, StatCard } from '../ds';
 import { DRAFT_DEFS, FILTER_DEFS, STATUS } from '../lib/data';
+import { SHOW_NEXT_STEP_GUIDANCE } from '../lib/flags';
 import type { LaborRequest, SortState } from '../lib/types';
 import { useAccount, useDrafts, useRequests } from '../store/app';
 import { useOutsideClose } from '../components/hooks';
@@ -65,7 +66,7 @@ export function Dashboard() {
           <div className="card card-open col">
             <div className="card-head">
               <div className="row" style={{ gap: 10 }}>
-                <h3 className="h3">Active labor requests</h3>
+                <h2 className="h3">Active labor requests</h2>
                 {filter !== 'all' && (
                   <Pill tone="navy">
                     {filterLabel}
@@ -125,7 +126,7 @@ export function Dashboard() {
             {drafts.length > 0 && (
               <div className="card" style={{ border: '1px dashed var(--border-strong)', flex: '0 0 auto' }}>
                 <div className="card-head card-head-sm">
-                  <h3 className="h3">Draft labor requests</h3>
+                  <h2 className="h3">Draft labor requests</h2>
                   <span className="pill pill-muted" style={{ padding: '1px 8px' }}>{drafts.length} draft{drafts.length === 1 ? '' : 's'}</span>
                 </div>
                 {drafts.map((key) => {
@@ -144,7 +145,7 @@ export function Dashboard() {
               </div>
             )}
             <div className="card col" style={{ border: '1px solid var(--accent-gold)', flex: '0 0 auto' }}>
-              <div className="card-head"><h3 className="h3">Pending union responses</h3></div>
+              <div className="card-head"><h2 className="h3">Pending union responses</h2></div>
               <div className="col">
                 {pending.map((p) => {
                   const over = p.status === 'overdue';
@@ -162,10 +163,12 @@ export function Dashboard() {
                 {pending.length === 0 && <div className="sub" style={{ padding: '14px 20px' }}>Nothing waiting on a union right now.</div>}
               </div>
             </div>
-            <div className="card col" style={{ padding: '14px 20px', gap: 8, flex: '0 0 auto' }}>
-              <span className="overline">Next on requests</span>
-              <span className="sub" style={{ lineHeight: 1.6 }}>A response without a dispatch after 5 business days suggests escalation. Union replies are parsed automatically — confirmed dispatches complete their classification and start onboarding.</span>
-            </div>
+            {SHOW_NEXT_STEP_GUIDANCE && (
+              <div className="card col" style={{ padding: '14px 20px', gap: 8, flex: '0 0 auto' }}>
+                <span className="overline">Next on requests</span>
+                <span className="sub" style={{ lineHeight: 1.6 }}>A response without a dispatch after 5 business days suggests escalation. Union replies are parsed automatically — confirmed dispatches complete their classification and start onboarding.</span>
+              </div>
+            )}
           </div>
         </div>
       ) : (

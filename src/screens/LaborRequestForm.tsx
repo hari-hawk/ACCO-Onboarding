@@ -7,6 +7,7 @@ import { useAccount, useActiveEmail, useApp } from '../store/app';
 import { clone, unionCode, unionShort } from '../lib/utils';
 import { SelectMenu, UnionMultiSelect } from '../components/SelectMenu';
 import { DateTimePicker } from '../components/DateTimePicker';
+import { SHOW_NEXT_STEP_GUIDANCE } from '../lib/flags';
 import { Pill } from '../components/Pill';
 
 const F = (k: string, v: string): KV => ({ k, v });
@@ -29,7 +30,7 @@ function Section({ n, title, sub, actions, children, right }: { n: number; title
         <div className="row" style={{ gap: 10 }}>
           <span className="step-no">{n}</span>
           <div className="col" style={{ gap: 1 }}>
-            <h3 className="h3">{title}</h3>
+            <h2 className="h3">{title}</h2>
             {sub && <span className="sub">{sub}</span>}
           </div>
         </div>
@@ -269,10 +270,12 @@ export function LaborRequestForm({ mode }: { mode: FormMode }) {
                 onRemove={() => setForm((f) => ({ ...f, classes: f.classes.filter((_, j) => j !== i) }))} />
             ))}
           </div>
-          <div className="card-foot" style={{ padding: '10px 24px', borderRadius: '0 0 16px 16px' }}>
-            <Icon name="info" size={14} style={{ color: 'var(--primary)' }} />
-            <span className="sub">This request bundles {form.classes.length} classification{form.classes.length > 1 ? 's' : ''} — {totalNew} opening{totalNew > 1 ? 's' : ''}, one job site. On submit the labor records are created instantly in HCM; you then email the union from the request page. AI-suggested unions are confirmed by you before anything sends.</span>
-          </div>
+          {SHOW_NEXT_STEP_GUIDANCE && (
+            <div className="card-foot" style={{ padding: '10px 24px', borderRadius: '0 0 16px 16px' }}>
+              <Icon name="info" size={14} style={{ color: 'var(--primary)' }} />
+              <span className="sub">This request bundles {form.classes.length} classification{form.classes.length > 1 ? 's' : ''} — {totalNew} opening{totalNew > 1 ? 's' : ''}, one job site. On submit the labor records are created instantly in HCM; you then email the union from the request page. AI-suggested unions are confirmed by you before anything sends.</span>
+            </div>
+          )}
         </Section>
       </div>
     </div>

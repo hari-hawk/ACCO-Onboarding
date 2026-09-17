@@ -59,7 +59,7 @@ export function ReportRecord() {
 
       <div className="card">
         <div className="card-head card-head-xs" style={{ padding: '10px 24px' }}>
-          <h3 className="h3">{specialist ? 'HCM profile — as filed' : 'Labor request — as closed'}</h3>
+          <h2 className="h3">{specialist ? 'HCM profile — as filed' : 'Labor request — as closed'}</h2>
           <span className="hint">As filed — values are frozen on close</span>
         </div>
         <div className="kv-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '14px 20px', padding: '16px 24px' }}>

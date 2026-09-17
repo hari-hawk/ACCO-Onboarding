@@ -104,7 +104,7 @@ export function Reports() {
       <div className="two-col" style={{ gridTemplateColumns: '1.6fr 420px' }}>
         <div className="card" style={{ minWidth: 0 }}>
           <div className="card-head card-head-sm">
-            <h3 className="h3">History — processed records</h3>
+            <h2 className="h3">History — processed records</h2>
             <Button variant="outline" size="xs" iconLeft="download">Export</Button>
           </div>
           <div className="table-scroll">
@@ -137,7 +137,7 @@ export function Reports() {
 
         <div className="col" style={{ gap: 16, minWidth: 0 }}>
           <div className="card">
-            <div className="card-head card-head-sm"><h3 className="h3">{specialist ? 'Onboardings by stage' : 'Openings by union'}</h3></div>
+            <div className="card-head card-head-sm"><h2 className="h3">{specialist ? 'Onboardings by stage' : 'Openings by union'}</h2></div>
             <div className="col" style={{ gap: 12, padding: '16px 20px' }}>
               {bars.map((b) => (
                 <div key={b.label} className="col" style={{ gap: 4 }}>
@@ -153,7 +153,7 @@ export function Reports() {
             </div>
           </div>
           <div className="card">
-            <div className="card-head card-head-sm"><h3 className="h3">Insights</h3></div>
+            <div className="card-head card-head-sm"><h2 className="h3">Insights</h2></div>
             <div className="col" style={{ gap: 12, padding: '14px 20px' }}>
               {insights.map((ins) => (
                 <div key={ins.text} className="row" style={{ gap: 10, alignItems: 'flex-start' }}>

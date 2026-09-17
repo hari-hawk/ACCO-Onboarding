@@ -98,7 +98,7 @@ export function Sign() {
 
       <div className="card col" style={{ minHeight: 0 }}>
         <div className="card-head card-head-sm">
-          <h3 style={{ fontSize: 15, fontWeight: 600 }}>{curTitle}</h3>
+          <h2 style={{ fontSize: 15, fontWeight: 600 }}>{curTitle}</h2>
           <span className="hint">Pre-filled from documents, HCM and dispatch</span>
         </div>
         <div className="col" style={{ flex: 1, overflow: 'auto', padding: '16px 20px', gap: 14 }}>
@@ -124,7 +124,7 @@ export function Sign() {
       </div>
 
       <div className="card col" style={{ minHeight: 0 }}>
-        <div style={{ padding: '12px 18px', borderBottom: '1px solid var(--border)' }}><h3 className="h3">Sign once</h3></div>
+        <div style={{ padding: '12px 18px', borderBottom: '1px solid var(--border)' }}><h2 className="h3">Sign once</h2></div>
         <div className="col" style={{ flex: 1, gap: 12, padding: '16px 18px', overflow: 'auto' }}>
           <div className="col" style={{ position: 'relative', gap: 4 }}>
             <canvas ref={canvasRef} width={560} height={240} aria-label="Draw your signature" onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerLeave={up}

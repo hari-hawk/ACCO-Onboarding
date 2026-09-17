@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Icon, NavBar } from '../ds';
 import { MIGUEL_NOTIFS } from '../lib/data';
-import { useAccount, useActiveEmail, useApp } from '../store/app';
+import { landingFor, useAccount, useActiveEmail, useApp } from '../store/app';
 import { useUi } from '../store/ui';
 import { useOutsideClose } from './hooks';
 import { Modal, Scrim } from './Modal';
@@ -53,7 +53,10 @@ export function AppShell() {
   return (
     <div className="app">
       <a href="#main" className="skip-link">Skip to content</a>
-      <NavBar product="Onboarding" items={navItems} activeId={navActive} onSelect={(id) => { closeAll(); if (kiosk.active && id !== 'onboardings') { kiosk.restricted(); return; } navigate(`/${id}`); }} style={{ zIndex: 'var(--z-dropdown)' as unknown as number }} right={
+      <NavBar product="Onboarding" items={navItems} activeId={navActive}
+        onSelect={(id) => { closeAll(); if (kiosk.active && id !== 'onboardings') { kiosk.restricted(); return; } navigate(`/${id}`); }}
+        onHome={() => { closeAll(); navigate(landingFor(key)); }}
+        style={{ zIndex: 'var(--z-dropdown)' as unknown as number }} right={
         <div ref={popRef} data-popover="1" className="row nav-cluster" style={{ position: 'relative', gap: 8 }}>
           <button type="button" className="nav-ctl" aria-label="Notifications" aria-expanded={notifOpen} onClick={guarded(() => { setNotifOpen((o) => !o); setMenuOpen(false); })} style={{ position: 'relative', width: 32, height: 32, borderRadius: 8 }}>
             <Icon name="bell" size={16} />

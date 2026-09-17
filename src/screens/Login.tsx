@@ -51,16 +51,16 @@ export function Login() {
   };
 
   return (
-    <div className="login">
-      <div className="login-hero">
+    <main className="login">
+      <section className="login-hero" aria-label="Onboarding workflow highlights">
         <div style={{ position: 'absolute', inset: 0, background: 'var(--dot-pattern)' }} />
         <div style={{ position: 'relative' }}><Brand size={40} sub="Onboarding portal" /></div>
         <div className="col" style={{ position: 'relative', gap: 24, maxWidth: 620, flex: 1, minHeight: 0, justifyContent: 'center', width: '100%' }}>
-          <div style={{ position: 'relative', overflow: 'hidden' }} aria-label="Onboarding workflow highlights">
+          <div style={{ position: 'relative', overflow: 'hidden' }} aria-live="polite" aria-atomic="true">
             <div style={{ display: 'flex', transform: `translateX(-${slide * 100}%)`, transition: 'transform 500ms var(--ease-standard)' }}>
-              {LOGIN_SLIDES.map((sl) => (
-                <div key={sl.title} className="col" style={{ flex: '0 0 100%', gap: 16, paddingRight: 32, boxSizing: 'border-box' }}>
-                  <span style={{ fontSize: 36, fontWeight: 700, letterSpacing: 'var(--ls-tight)', color: '#fff', lineHeight: 1.2, textWrap: 'pretty' }}>{sl.title}</span>
+              {LOGIN_SLIDES.map((sl, i) => (
+                <div key={sl.title} className="col" aria-hidden={i !== slide} style={{ flex: '0 0 100%', gap: 16, paddingRight: 32, boxSizing: 'border-box' }}>
+                  <h2 style={{ fontSize: 36, fontWeight: 700, letterSpacing: 'var(--ls-tight)', color: '#fff', lineHeight: 1.2, textWrap: 'pretty' }}>{sl.title}</h2>
                   <span style={{ fontSize: 15, color: 'rgba(255,255,255,.78)', lineHeight: 1.65, maxWidth: 480, textWrap: 'pretty' }}>{sl.text}</span>
                 </div>
               ))}
@@ -82,13 +82,13 @@ export function Login() {
           </div>
         </div>
         <span style={{ position: 'relative', fontSize: 11, color: 'rgba(255,255,255,.55)' }}>© 2026 ACCO Engineered Systems. All rights reserved.</span>
-      </div>
+      </section>
 
-      <div className="login-panel">
+      <section className="login-panel" aria-label="Sign in">
         <div className="col" style={{ width: 340, maxWidth: '100%', alignItems: 'center', gap: 20, textAlign: 'center' }}>
           <Brand size={36} />
           <div className="col" style={{ gap: 6 }}>
-            <span style={{ fontSize: 22, fontWeight: 700, letterSpacing: 'var(--ls-tight)', color: '#fff' }}>Sign In</span>
+            <h1 style={{ fontSize: 22, fontWeight: 700, letterSpacing: 'var(--ls-tight)', color: '#fff' }}>Sign In</h1>
             <span style={{ fontSize: 13, color: 'rgba(255,255,255,.7)' }}>Welcome to your ACCO onboarding workspace</span>
           </div>
           <button type="button" className="ms-btn" onClick={() => setPopup('pick')}>
@@ -169,7 +169,7 @@ export function Login() {
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

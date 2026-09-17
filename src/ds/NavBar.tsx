@@ -8,11 +8,21 @@ export interface NavBarProps {
   items?: NavItem[];
   activeId?: string;
   onSelect?: (id: string) => void;
+  /** When set, the ACCO mark and product name become a home control. */
+  onHome?: () => void;
   right?: ReactNode;
   style?: CSSProperties;
 }
 
-export function NavBar({ product = 'Submittals', items = [], activeId, onSelect, right, style }: NavBarProps) {
+export function NavBar({ product = 'Submittals', items = [], activeId, onSelect, onHome, right, style }: NavBarProps) {
+  const brand = (
+    <>
+      <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 26, height: 26, borderRadius: 'var(--radius-full)', background: 'var(--brand-navy)', border: '1px solid var(--nav-gold)', color: '#FFFFFF', fontSize: 8, fontWeight: 700, letterSpacing: 'var(--ls-tight)' }}>acco</span>
+      <span style={{ fontSize: 'var(--text-md)', fontWeight: 600, letterSpacing: 'var(--ls-tight)', color: '#FFFFFF' }}>ACCO</span>
+      <span className="nav-product" style={{ width: 1, height: 'var(--space-4)', background: 'rgba(255,255,255,0.25)' }} />
+      <span className="nav-product" style={{ fontSize: 'var(--text-sm)', fontWeight: 500, color: 'var(--nav-idle)' }}>{product}</span>
+    </>
+  );
   return (
     <header
       style={{
@@ -30,12 +40,13 @@ export function NavBar({ product = 'Submittals', items = [], activeId, onSelect,
         ...style,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flex: '0 0 auto' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 26, height: 26, borderRadius: 'var(--radius-full)', background: 'var(--brand-navy)', border: '1px solid var(--nav-gold)', color: '#FFFFFF', fontSize: 8, fontWeight: 700, letterSpacing: 'var(--ls-tight)' }}>acco</span>
-        <span style={{ fontSize: 'var(--text-md)', fontWeight: 600, letterSpacing: 'var(--ls-tight)', color: '#FFFFFF' }}>ACCO</span>
-        <span className="nav-product" style={{ width: 1, height: 'var(--space-4)', background: 'rgba(255,255,255,0.25)' }} />
-        <span className="nav-product" style={{ fontSize: 'var(--text-sm)', fontWeight: 500, color: 'var(--nav-idle)' }}>{product}</span>
-      </div>
+      {onHome ? (
+        <button type="button" className="nav-brand" aria-label={`ACCO ${product} — go to home`} onClick={onHome}>
+          {brand}
+        </button>
+      ) : (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flex: '0 0 auto' }}>{brand}</div>
+      )}
       <nav style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', flex: 1, minWidth: 0, overflowX: 'auto', scrollbarWidth: 'none' }}>
         {items.map((it) => {
           const on = it.id === activeId;

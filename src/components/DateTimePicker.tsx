@@ -117,28 +117,32 @@ export function DateTimePicker({ id, value, onChange, withTime, placeholder, ari
           </div>
           <div className="dtp-weekdays" aria-hidden="true">{WEEKDAYS.map((w) => <span key={w}>{w}</span>)}</div>
           <div ref={gridRef} className="dtp-grid" role="grid" aria-label={`${MONTHS[view.getMonth()]} ${view.getFullYear()}`}>
-            {cells.map((d) => {
-              const outside = d.getMonth() !== view.getMonth();
-              const selected = sameDay(parsed.date, d);
-              const isToday = sameDay(today, d);
-              return (
-                <button
-                  key={d.toISOString()}
-                  type="button"
-                  role="gridcell"
-                  data-day={fmtDate(d)}
-                  aria-selected={selected}
-                  aria-current={isToday ? 'date' : undefined}
-                  aria-label={d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
-                  tabIndex={selected || (!parsed.date && isToday) ? 0 : -1}
-                  className={`dtp-day${outside ? ' out' : ''}${selected ? ' on' : ''}${isToday ? ' today' : ''}`}
-                  onClick={() => pickDay(d)}
-                  onKeyDown={(e) => onGridKey(e, d)}
-                >
-                  {d.getDate()}
-                </button>
-              );
-            })}
+            {Array.from({ length: 6 }, (_, w) => (
+              <div key={w} role="row" className="dtp-row">
+                {cells.slice(w * 7, w * 7 + 7).map((d) => {
+                  const outside = d.getMonth() !== view.getMonth();
+                  const selected = sameDay(parsed.date, d);
+                  const isToday = sameDay(today, d);
+                  return (
+                    <button
+                      key={d.toISOString()}
+                      type="button"
+                      role="gridcell"
+                      data-day={fmtDate(d)}
+                      aria-selected={selected}
+                      aria-current={isToday ? 'date' : undefined}
+                      aria-label={d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                      tabIndex={selected || (!parsed.date && isToday) ? 0 : -1}
+                      className={`dtp-day${outside ? ' out' : ''}${selected ? ' on' : ''}${isToday ? ' today' : ''}`}
+                      onClick={() => pickDay(d)}
+                      onKeyDown={(e) => onGridKey(e, d)}
+                    >
+                      {d.getDate()}
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
           </div>
           {withTime && (
             <div className="dtp-foot">

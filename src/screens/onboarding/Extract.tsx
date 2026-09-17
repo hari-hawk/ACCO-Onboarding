@@ -19,7 +19,7 @@ export function Extract() {
     <div className="page ob-extract">
       <div className="card col">
         <div className="card-head" style={{ padding: '14px 16px' }}>
-          <h3 className="h3">Documents</h3>
+          <h2 className="h3">Documents</h2>
           <span className="mono hint">{d.readyCount} / 4 ready</span>
         </div>
         <div className="col" style={{ gap: 8, padding: 12, flex: 1 }}>
@@ -119,7 +119,7 @@ export function Extract() {
 
       <div className="card col">
         <div className="card-head">
-          <h3 className="h3">Extracted data</h3>
+          <h2 className="h3">Extracted data</h2>
           <Button variant="action" size="sm" iconRight="arrow-right" disabled={d.confirmDisabled} onClick={confirmProfile}>Confirm &amp; create profile</Button>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px 16px', padding: '14px 20px' }}>

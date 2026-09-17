@@ -46,7 +46,7 @@ export function Profile() {
 
       <div className="card">
         <div className="card-head card-head-xs" style={{ padding: '10px 24px' }}>
-          <h3 className="h3">Onboarding record — pre-filled from documents</h3>
+          <h2 className="h3">Onboarding record — pre-filled from documents</h2>
           <span className="hint">Edit any value back on the documents step</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px 20px', padding: '14px 24px' }}>

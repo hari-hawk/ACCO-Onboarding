@@ -61,7 +61,7 @@ export function MyProfile() {
       </div>
 
       <div className="card">
-        <div className="card-head card-head-sm" style={{ padding: '12px 24px' }}><h3 className="h3">Access &amp; permissions</h3></div>
+        <div className="card-head card-head-sm" style={{ padding: '12px 24px' }}><h2 className="h3">Access &amp; permissions</h2></div>
         {!isSpecialist && (
           <>
             <SettingRow on={autoSend} onToggle={toggleAutoSend} label="Allow automatic email sending" title="Allow automatic email sending"

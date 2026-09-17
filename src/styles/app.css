@@ -195,11 +195,12 @@ button.trow:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px
 .dtp-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: var(--z-dropdown); width: 344px; max-width: calc(100vw - 32px); padding: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--elev-3); display: flex; flex-direction: column; gap: 8px; }
 .dtp-head { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px; }
 .dtp-title { font-size: 13px; font-weight: 600; letter-spacing: var(--ls-tight); }
-.dtp-weekdays, .dtp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.dtp-weekdays, .dtp-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.dtp-grid { display: flex; flex-direction: column; gap: 2px; }
 .dtp-weekdays span { text-align: center; font-size: 11px; font-weight: 500; color: var(--muted-foreground); padding: 4px 0 2px; }
 .dtp-day { height: 36px; border: 1px solid transparent; border-radius: 999px; background: none; font-family: inherit; font-size: 12px; font-weight: 500; color: var(--foreground); cursor: pointer; font-variant-numeric: tabular-nums; }
 .dtp-day:hover { background: var(--muted); }
-.dtp-day.out { color: var(--muted-foreground); opacity: .7; }
+.dtp-day.out { color: var(--muted-foreground); font-weight: 400; } /* 5.7:1 on white — no alpha, per WCAG 1.4.3 */
 .dtp-day.today { border-color: var(--border-strong); }
 .dtp-day.on { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
 .dtp-day:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
@@ -213,6 +214,11 @@ button.trow:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px
 .acct-row.on { background: var(--ds-bg-blue-light); }
 .acct-row.on:hover { background: color-mix(in srgb, var(--ds-bg-blue-light) 70%, var(--muted)); }
 .acct-row:last-child { border-bottom: none; }
+
+/* Nav brand acts as the home link */
+.nav-brand { display: flex; align-items: center; gap: var(--space-2); flex: 0 0 auto; border: none; background: none; padding: 4px 6px; margin-left: -6px; border-radius: var(--radius-sm); cursor: pointer; color: inherit; }
+.nav-brand:hover { background: rgba(255,255,255,.08); }
+.nav-brand:focus-visible { outline: 2px solid var(--nav-gold); outline-offset: 2px; }
 
 /* Nav right cluster */
 .nav-ctl { display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.25); cursor: pointer; background: none; color: #fff; }
