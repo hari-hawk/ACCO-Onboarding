@@ -1,0 +1,367 @@
+/* ============================================================================
+   ACCO Submittal Compliance - Foundational Token Layer v1.0
+   Drop-in replacement for web/src/app/common/styles/_variables.scss
+
+   Inline markers used below:
+     FIX  - corrects a defect logged in ACCO-DESIGN-SYSTEM.md section 11
+     NEW  - an addition that fills a documented gap
+     no marker - byte-identical to the current ACCO value; do not change
+   ============================================================================ */
+
+:root {
+  /* ── NATIVE CONTROL THEME (defect T-04) ──────────────────────────────────
+     Without `color-scheme`, the browser renders its OWN widgets - scrollbars,
+     date/time pickers, <select> popups, checkboxes, radios, autofill panels -
+     according to the OS theme, NOT the .dark class. So toggling the app to
+     dark on a light OS leaves every native picker light against dark chrome,
+     which is the "toggle does not fully switch" symptom. Declaring it here
+     binds native UI to the app theme. */
+  color-scheme: light;
+
+  /* ── LAYER 1 · PRIMITIVES ────────────────────────────────────────────── */
+
+  /* Primary — navy. Steps 300–700 re-derived: single hue, monotonic luminance. */
+  --ds-primary-100: #E6F3FD;
+  --ds-primary-200: #C2E2FB;
+  --ds-primary-300: #7FB6F7;   /* FIX C-01: was #9ACE87 (a green in a blue ramp) */
+  --ds-primary-400: #4FA0F0;   /* FIX C-02: was #6084F2 (darker than 500) */
+  --ds-primary-500: #309AE8;
+  --ds-primary-600: #1A7FD4;
+  --ds-primary-700: #0B69AF;   /* FIX C-03: was #006288 (teal, off-hue) */
+  --ds-primary-800: #00529B;   /* load-bearing: --primary, --ring */
+  --ds-primary-900: #003075;   /* load-bearing: --nav */
+
+  /* Neutral — grey */
+  --ds-neutral-50:  #FAFAFA;
+  --ds-neutral-100: #F0F0F0;
+  --ds-neutral-200: #D8D8D8;
+  --ds-neutral-300: #C0C0C0;
+  --ds-neutral-400: #A8A8A8;
+  --ds-neutral-500: #828282;   /* FIX C-04/C-05: was #6B6B6B, a duplicate of 600 */
+  --ds-neutral-600: #6B6B6B;
+  --ds-neutral-700: #525252;
+  --ds-neutral-800: #4A4A4A;
+  --ds-neutral-900: #333333;
+
+  /* Secondary — green */
+  --ds-secondary-100: #F2F8EE;
+  --ds-secondary-200: #DFEDD5;
+  --ds-secondary-300: #CADCBA;
+  --ds-secondary-400: #B4CC9E;
+  --ds-secondary-500: #9DB882;
+  --ds-secondary-600: #87A46A;   /* FIX C-06: was #87A48A (one char off-hue) */
+  --ds-secondary-700: #6A8753;
+  --ds-secondary-800: #536640;
+  --ds-secondary-900: #3D4F2E;
+
+  /* Brand */
+  --brand-navy:      #00497F;   /* NEW C-07: the logo disc. Mark-only, never a UI surface. */
+
+  /* Accent & signal */
+  --accent-gold:      #E1A41D;  /* border / glow / indicator only — never text or fill under white */
+  --accent-gold-dark: #C48A14;
+  --accent-gold-text: #92400E;  /* NEW A3: use when gold-toned TEXT is required (6.37:1 on white) */
+
+  /* Untokenised literals promoted */
+  --ds-navy-deep:   #002060;    /* NEW C-08: hero gradient third stop */
+  --ds-green-cta:   #87A46A;    /* NEW C-08: CTA gradient start */
+  --ds-green-cta-2: #748F5A;    /* NEW C-08: CTA gradient end */
+  --ds-amber-500:   #F59E0B;    /* NEW C-08: toast warn border */
+  --ds-amber-700:   #B45309;    /* NEW C-08: toast warn / extracting */
+  --ds-slate-800:   #1F2937;    /* NEW C-08: tooltip text (light) */
+  --ds-slate-950:   #1A1A2E;    /* NEW C-08: tooltip surface (dark) */
+  --ds-slate-100:   #E2E8F0;    /* NEW C-08: tooltip text (dark) */
+
+  /* ── LAYER 2 · SEMANTICS ─────────────────────────────────────────────── */
+
+  /* Surface & content */
+  --background:        #F9FAFB;
+  --foreground:        var(--ds-neutral-900);
+  --card:              #FFFFFF;
+  --card-foreground:   var(--ds-neutral-900);
+  --popover:           #FFFFFF;
+  --popover-foreground:var(--ds-neutral-900);
+  --muted:             var(--ds-neutral-100);
+  --muted-foreground:  var(--ds-neutral-600);
+  --border:            var(--ds-neutral-200);   /* decorative dividers */
+  --border-strong:     #767676;                 /* NEW A11: interactive boundaries, 4.54:1 */
+  --input:             var(--ds-neutral-200);
+  --ring:              var(--ds-primary-800);
+  /* C-09: --surface-bg / --surface-card / --surface-nav retired as duplicate aliases.
+     Kept below only so existing components keep compiling during migration. */
+  --surface-bg:        var(--background);
+  --surface-card:      var(--card);
+  --surface-nav:       var(--nav);
+
+  /* Interactive */
+  --primary:              var(--ds-primary-800);
+  --primary-foreground:   #FFFFFF;
+  --secondary:            var(--ds-neutral-100);
+  --secondary-foreground: var(--ds-neutral-900);
+  --destructive:          #C50007;   /* FIX A5: was #F02C36 (4.10:1 — below AA) */
+
+  /* Action / CTA — darkened to clear AA for white text */
+  --action:            var(--ds-secondary-800);              /* FIX A1: 6.28:1 */
+  --action-hover:      var(--ds-secondary-900);              /* FIX A2: 8.91:1 */
+  --action-foreground: #FFFFFF;
+
+  /* Navigation */
+  --nav:            var(--ds-primary-900);
+  --nav-foreground: var(--ds-neutral-100);
+  --nav-accent:     var(--ds-primary-600);
+  --nav-gold:       var(--accent-gold);
+  --nav-idle:       rgba(240, 240, 240, 0.75);  /* FIX A10: was 0.6 (3.86:1) */
+
+  /* Conformance status — ACCO-authoritative, unchanged */
+  --status-pre-approved:        #007A54;
+  --status-pre-approved-bg:     #E8F5EF;
+  --status-review-required:     #C43600;
+  --status-review-required-bg:  #FFF3E8;
+  --status-action-mandatory:    #C50007;
+  --status-action-mandatory-bg: #FBF3F2;
+
+  /* Confidence */
+  --confidence-high:   var(--status-pre-approved);
+  --confidence-medium: var(--status-review-required);
+  --confidence-low:    var(--status-action-mandatory);
+
+  /* Package lifecycle */
+  --status-extracting:     #B45309;  --status-extracting-bg:  #FEF3C7;
+  --status-in-progress:    #0E7490;  --status-in-progress-bg: #CFFAFE;
+  --status-active:         #4338CA;  --status-active-bg:      #E0E7FF;
+  --status-on-hold:        #6B6B6B;  --status-on-hold-bg:     #F0F0F0;
+  --status-completed:      #007A54;  --status-completed-bg:   #E8F5EF;
+
+  /* Tags */
+  --color-tag-blue:   #1550FC;  --color-tag-blue-light:   #EFF4FF;
+  --color-tag-green:  #007A54;  --color-tag-green-light:  #E8F5EF;
+  --color-tag-red:    #C50007;  --color-tag-red-light:    #FBF3F2;  /* FIX A9: was #E70008 */
+  --color-tag-orange: #C43600;  --color-tag-orange-light: #FFF3E8;
+  --color-tag-purple: #6D28D9;  --color-tag-purple-light: #EDE9FE;  /* FIX A8: was #8B5CF6 */
+  --color-tag-brown:  #78350F;  --color-tag-brown-light:  #FEF3C7;
+
+  /* Role badges */
+  --badge-admin-text:    #1D4ED8;
+  --badge-reviewer-text: #B45309;  /* FIX A6: was #D97706 (3.19:1) */
+  --badge-viewer-bg:     #EDE9FE;  --badge-viewer-text: #6D28D9;
+  --badge-sm-bg:         #E0F2FE;  --badge-sm-text:     #0369A1;
+
+  /* Feedback surfaces */
+  --toast-warning-bg: #FEF3C7; --toast-warning-border: #F59E0B; --toast-warning-text: #92400E;
+  --ds-error-bg:      #FEF2F2; --ds-error-border:      #FECACA; --ds-error-text:      #991B1B;
+
+  /* Utility surfaces */
+  --ds-bg-gray:        #F3F4F6;
+  --ds-bg-blue-light:  #EFF4FF;
+  --ds-bg-gray-light:  #F9FAFB;
+  --ds-accent-special: #FFFBE8;
+
+  /* PDF citation highlight */
+  --ds-highlight-border: #22C55E;
+  --ds-highlight-bg:     #FEF9C3;
+  --ds-highlight-text:   #111827;
+
+  /* Chart */
+  --chart-1: #4338CA;
+
+  /* ── TYPOGRAPHY ──────────────────────────────────────────────────────── */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:   'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+  --font-print:  Arial, Helvetica, sans-serif;   /* NEW: transmittal cover, §4.8 */
+
+  --text-2xs: 10px;  --text-xs:  11px;  --text-sm:   12px;  /* 12px = default UI size */
+  --text-base:13px;  --text-md:  14px;  --text-lg:   16px;
+  --text-xl:  18px;  --text-2xl: 20px;  --text-3xl:  24px;  --text-4xl: 32px;
+
+  --weight-regular: 400; /* @kind font */
+  --weight-medium: 500; /* @kind font */  /* 500 = resting weight */
+  --weight-semibold: 600; /* @kind font */
+  --weight-bold: 700; /* @kind font */
+
+  --lh-none: 1; /* @kind other */
+  --lh-tight: 1.2; /* @kind other */
+  --lh-snug: 1.3; /* @kind other */
+  --lh-base: 1.4; /* @kind other */
+  --lh-relaxed: 1.5; /* @kind other */
+  --lh-loose: 1.6; /* @kind other */
+
+  --ls-tighter: -0.025em; /* @kind other */
+  --ls-tight: -0.01em; /* @kind other */
+  --ls-normal: 0; /* @kind other */
+  --ls-wide: 0.02em; /* @kind other */
+  --ls-wider: 0.03em; /* @kind other */
+  --ls-overline: 0.05em; /* @kind other */
+
+  /* ── SPACE ───────────────────────────────────────────────────────────── */
+  --space-0: 0;      --space-0-5: 2px;  --space-1: 4px;   --space-1-5: 6px;
+  --space-2: 8px;    --space-2-5: 10px; --space-3: 12px;  --space-4: 16px;
+  --space-5: 20px;   --space-6: 24px;   --space-8: 32px;  --space-10: 40px;
+  --space-12: 48px;  --space-16: 64px;
+
+  /* ── RADIUS ──────────────────────────────────────────────────────────── */
+  --radius-xs:   4px;   /* NEW: micro tag */
+  --radius-sm:   6px;   /* default control */
+  --radius-md:   8px;   /* input, tooltip */
+  --radius-lg:   12px;  /* panel */
+  --radius-xl:   16px;  /* FIX S-04: card. Was 14px and unused; 16px had no token. */
+  --radius-full: 9999px;
+  --radius-base: 10px;  /* deprecated — retained for migration only */
+
+  /* ── CONTROL SIZE ────────────────────────────────────────────────────── */
+  --control-xs: 28px; --control-sm: 32px; --control-md: 36px;
+  --control-lg: 40px; --control-xl: 48px;
+
+  --icon-xs: 12px; --icon-sm: 14px; --icon-md: 16px; --icon-lg: 18px;
+  --icon-xl: 20px; --icon-2xl: 24px; --icon-3xl: 32px;
+
+  /* ── LAYOUT ──────────────────────────────────────────────────────────── */
+  --nav-height: 56px;
+  --header-height: 56px;
+  --content-max: 1400px;
+
+  /* ── ELEVATION (§6.1) ────────────────────────────────────────────────── */
+  --elev-0: none;
+  --elev-1: 0 1px 2px color-mix(in srgb, var(--foreground) 4%, transparent);
+  --elev-2: 0 1px 3px color-mix(in srgb, var(--foreground) 6%, transparent),
+            0 4px 16px color-mix(in srgb, var(--foreground) 4%, transparent);
+  --elev-3: 0 4px 12px color-mix(in srgb, var(--foreground) 8%, transparent),
+            0 16px 32px color-mix(in srgb, var(--foreground) 6%, transparent);
+  --elev-4: 0 4px 16px color-mix(in srgb, var(--foreground) 12%, transparent);
+  --elev-5: 0 16px 48px color-mix(in srgb, var(--foreground) 16%, transparent),
+            0 4px 12px color-mix(in srgb, var(--foreground) 8%, transparent);
+  --elev-sheet: -8px 0 32px color-mix(in srgb, var(--foreground) 12%, transparent);
+  /* Legacy aliases */
+  --shadow-card:       var(--elev-2);
+  --shadow-card-hover: var(--elev-3);
+  --shadow-glow:       0 0 24px color-mix(in srgb, var(--primary) 18%, transparent);
+  --shadow-gold-glow:  0 0 20px color-mix(in srgb, var(--accent-gold) 15%, transparent);
+
+  /* ── FOCUS (§6.2) ────────────────────────────────────────────────────── */
+  --focus-width: 2px; /* @kind spacing */
+  --focus-offset: 2px; /* @kind spacing */
+  --focus-color: var(--ring);
+  --focus-halo: 0 0 0 4px color-mix(in srgb, var(--ring) 18%, transparent);
+
+  /* ── MOTION (§6.3) ───────────────────────────────────────────────────── */
+  --dur-instant: 100ms; /* @kind other */
+  --dur-fast: 150ms; /* @kind other */
+  --dur-base: 200ms; /* @kind other */
+  --dur-slow: 250ms; /* @kind other */
+  --dur-progress: 500ms; /* @kind other */
+  --dur-progress-lg: 800ms; /* @kind other */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  --ease-emphasis: cubic-bezier(0.3, 0, 0, 1); /* @kind other */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1); /* @kind other */
+  --ease-linear: linear; /* @kind other */
+
+  /* ── Z-INDEX STRATA (§6.4) ───────────────────────────────────────────── */
+  --z-base: 0; /* @kind other */
+  --z-raised: 10; /* @kind other */
+  --z-sticky: 100; /* @kind other */
+  --z-nav: 200; /* @kind other */
+  --z-dropdown: 300; /* @kind other */
+  --z-sheet: 400; /* @kind other */
+  --z-modal: 500; /* @kind other */
+  --z-toast: 600; /* @kind other */
+  --z-tooltip: 700; /* @kind other */
+
+  /* ── GRADIENTS & PATTERNS (§6.5) ─────────────────────────────────────── */
+  --hero-gradient:     linear-gradient(135deg, var(--ds-primary-900) 0%, var(--ds-primary-800) 50%, var(--ds-navy-deep) 100%); /* @kind color */
+  --gradient-accent:   linear-gradient(135deg, var(--ds-primary-800), var(--ds-primary-900)); /* @kind color */
+  --gradient-action:   linear-gradient(135deg, var(--ds-secondary-800), var(--ds-secondary-900)); /* FIX A1/A2 */
+  --dot-pattern:       radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px); /* @kind other */
+}
+
+/* ── DARK THEME ────────────────────────────────────────────────────────── */
+.dark {
+  color-scheme: dark;   /* defect T-04: binds native widgets to the app theme */
+
+  --ds-primary-100: #1A2744; --ds-primary-200: #1E3A5F; --ds-primary-300: #8AD0FF;
+  --ds-primary-400: #8AD0FF; --ds-primary-500: #6CC3FF; --ds-primary-600: #5BB8FF;
+  --ds-primary-700: #4AADFF; --ds-primary-800: #309AE8; --ds-primary-900: #1A2744;
+
+  --ds-neutral-50: #222838;  --ds-neutral-100: #2A3040; --ds-neutral-200: #3A4050;
+  --ds-neutral-300: #4A4A4A; --ds-neutral-400: #6B6B6B; --ds-neutral-500: #8F8F8F; /* FIX C-04 */
+  --ds-neutral-600: #A8A8A8; --ds-neutral-700: #C0C0C0; --ds-neutral-800: #D8D8D8;
+  --ds-neutral-900: #F0F0F0;
+
+  --ds-secondary-100: #1A2210; --ds-secondary-200: #1E2A16; --ds-secondary-300: #2A3A1F;
+  --ds-secondary-400: #3D4F2E; --ds-secondary-500: #536640; --ds-secondary-600: #6A8753;
+  --ds-secondary-700: #87A46A; --ds-secondary-800: #9DB882; --ds-secondary-900: #B4CC9E;
+
+  --background: #1A1F2E; --foreground: #F0F0F0;
+  --card: #222838;       --card-foreground: #F0F0F0;
+  --popover: #222838;    --popover-foreground: #F0F0F0;
+  --muted: #2A3040;      --muted-foreground: #A8A8A8;
+  --border: #3A4050;     --border-strong: #6B7280;   /* NEW A11 */
+  --input: #3A4050;      --ring: #309AE8;
+
+  --primary: #309AE8;    --primary-foreground: #0A0F1A;
+  --secondary: #2A3040;  --secondary-foreground: #F0F0F0;
+  --destructive: #FF6B6B;   /* FIX A5-dark: was #F02C36 (3.58:1) */
+
+  --action: var(--ds-secondary-500);        /* #536640 */
+  --action-hover: var(--ds-secondary-400);  /* #3D4F2E */
+  --action-foreground: #FFFFFF;
+
+  --nav: #0F1520; --nav-foreground: #D8D8D8; --nav-accent: #309AE8;
+  --nav-gold: #E1A41D; --nav-idle: rgba(216, 216, 216, 0.75);
+
+  --status-pre-approved: #4ADE80;     --status-pre-approved-bg: #1A2E20;
+  --status-review-required: #FF8C42;  --status-review-required-bg: #2E2218;
+  --status-action-mandatory: #FF6B6B; --status-action-mandatory-bg: #2E1A1A;
+
+  --status-extracting: #FBBF24;  --status-extracting-bg: #2E2818;
+  --status-in-progress: #22D3EE; --status-in-progress-bg: #1A2E2E;
+  --status-active: #818CF8;      --status-active-bg: #1E1A2E;
+  --status-on-hold: #A8A8A8;     --status-on-hold-bg: #2A3040;
+  --status-completed: #4ADE80;   --status-completed-bg: #1A2E20;
+
+  --color-tag-blue: #5B8FFF;   --color-tag-blue-light: #1A2744;
+  --color-tag-green: #4ADE80;  --color-tag-green-light: #1A2E20;
+  --color-tag-red: #FF6B6B;    --color-tag-red-light: #2E1A1A;
+  --color-tag-orange: #FF8C42; --color-tag-orange-light: #2E2218;
+  --color-tag-purple: #A78BFA; --color-tag-purple-light: #231A2E;
+  --color-tag-brown: #D4A574;  --color-tag-brown-light: #2E2218;
+
+  --badge-admin-text: #5BB8FF; --badge-reviewer-text: #FCD34D;
+  --badge-viewer-bg: #231A2E;  --badge-viewer-text: #C084FC;
+  --badge-sm-bg: #12283A;      --badge-sm-text: #38BDF8;
+
+  --toast-warning-bg: #2E2818; --toast-warning-border: #FBBF24; --toast-warning-text: #FCD34D;
+  --ds-error-bg: #2E1A1A; --ds-error-border: rgba(248,113,113,0.3); --ds-error-text: #FCA5A5;
+
+  --ds-bg-gray: #222838; --ds-bg-blue-light: #1A2744;
+  --ds-bg-gray-light: #1E2433; --ds-accent-special: #2E2818;
+
+  --ds-highlight-border: #4D7C0F; --ds-highlight-bg: var(--ds-accent-special);
+  --ds-highlight-text: var(--ds-neutral-800);
+
+  --chart-1: #818CF8;
+  --accent-gold-text: #FCD34D;
+
+  --hero-gradient:   linear-gradient(135deg, #0F1520 0%, #1A2744 50%, #0A0F1A 100%); /* @kind color */
+  --gradient-accent: linear-gradient(135deg, #1A2744, #0F1520); /* @kind color */
+  --gradient-action: linear-gradient(135deg, var(--ds-secondary-500), var(--ds-secondary-400));
+  --dot-pattern:     radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px); /* @kind other */
+}
+
+/* ── CANONICAL FOCUS RING (§6.2) ───────────────────────────────────────── */
+:focus-visible {
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: var(--focus-offset);
+}
+
+/* ── REDUCED MOTION — preserve verbatim (§6.3) ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── TOUCH TARGETS (§10.6) ─────────────────────────────────────────────── */
+@media (pointer: coarse) {
+  :root { --control-xs: 36px; --control-sm: 40px; }
+}

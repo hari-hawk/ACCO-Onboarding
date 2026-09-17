@@ -1,0 +1,10 @@
+/* Ground rules — verbatim from the ACCO sync's styles.css. */
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
+body { margin: 0; background-color: var(--background); color: var(--foreground); font-family: var(--font-family); font-size: var(--text-sm); line-height: var(--lh-relaxed); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+*, *::before, *::after { box-sizing: border-box; }
+:focus-visible { outline: var(--focus-width) solid var(--focus-color); outline-offset: var(--focus-offset); }
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--ds-primary-900); text-decoration: underline; }
+.dark a:hover { color: var(--ds-primary-600); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }

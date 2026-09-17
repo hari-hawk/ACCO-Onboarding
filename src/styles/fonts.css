@@ -1,0 +1,21 @@
+/* ACCO webfonts.
+   Inter from Google Fonts (no binaries shipped). SF Mono is self-hosted from /public/fonts.
+   Cascadia Code is the second name in --font-mono and only renders where SF Mono is absent. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@font-face { font-family: 'Cascadia Code'; src: url("https://cdn.jsdelivr.net/fontsource/fonts/cascadia-code@5.2/latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Cascadia Code'; src: url("https://cdn.jsdelivr.net/fontsource/fonts/cascadia-code@5.2/latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Cascadia Code'; src: url("https://cdn.jsdelivr.net/fontsource/fonts/cascadia-code@5.2/latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoLight.otf") format("opentype"); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoLightItalic.otf") format("opentype"); font-weight: 300; font-style: italic; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoRegular.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoRegularItalic.otf") format("opentype"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoMedium.otf") format("opentype"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoMediumItalic.otf") format("opentype"); font-weight: 500; font-style: italic; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoSemibold.otf") format("opentype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoSemiboldItalic.otf") format("opentype"); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoBold.otf") format("opentype"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoBoldItalic.otf") format("opentype"); font-weight: 700; font-style: italic; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoHeavy.otf") format("opentype"); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'SF Mono'; src: url("./fonts/SFMonoHeavyItalic.otf") format("opentype"); font-weight: 800; font-style: italic; font-display: swap; }
