@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { DOC_SIM_NAMES } from '../lib/data';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { DOC_SIM_NAMES, SESSION_MINUTES } from '../lib/data';
 import type { DocEntry, DocKey, ObCtx, ObDocs, ObStage, PreDoc, PreVerdict, Session } from '../lib/types';
 import { nowTime } from '../lib/utils';
 
@@ -43,8 +44,12 @@ export interface OnboardingState {
   dv: DocViewer;
   bankTried: boolean;
   fileUrls: Record<string, string>;
+  /** Epoch ms when the 30-minute window opened (identity check passed or session resumed). */
+  sessionStart: number | null;
 
   startNew: () => void;
+  /** Clear the session after the window closes. Returns what was cleared so it can be recorded. */
+  expireSession: () => { name: string; cls: string; lr: string; site: string; union: string } | null;
   resume: (s: Session) => void;
   setPre: (k: keyof OnboardingState['pre'], v: string) => void;
   fillPre: (f: string[]) => void;
@@ -108,7 +113,15 @@ const fresh = () => ({
   hcmBusy: false,
   hcmBusyFor: null,
   dv: { open: false, page: 1 as const, zoom: 1, rot: 0, kind: 'dispatch' as DvKind, url: '', name: null },
+  sessionStart: null as number | null,
 });
+
+export const SESSION_MS = SESSION_MINUTES * 60 * 1000;
+
+/** Milliseconds left in the window, or null when no window is open. */
+export function sessionRemaining(start: number | null, now = Date.now()): number | null {
+  return start === null ? null : Math.max(0, start + SESSION_MS - now);
+}
 
 const timers = new Map<string, ReturnType<typeof setInterval>>();
 function clearTimer(k: string) {
@@ -126,7 +139,9 @@ export function stageKey(stage: ObStage): string {
   return stage === 'filed' ? 'file' : stage === 'precheck' ? 'identity' : stage;
 }
 
-export const useOnboarding = create<OnboardingState>((set, get) => ({
+/* Persisted to sessionStorage so a tab reload keeps the session and its 30-minute clock.
+   Object URLs for uploaded files cannot survive a reload, so they are not persisted. */
+export const useOnboarding = create<OnboardingState>()(persist((set, get) => ({
   ...fresh(),
   bankTried: false,
   fileUrls: {},
@@ -136,7 +151,29 @@ export const useOnboarding = create<OnboardingState>((set, get) => ({
     set({ ...fresh(), bankTried: false });
   },
 
+  expireSession: () => {
+    const st = get();
+    if (st.sessionStart === null) return null;
+    const ctx = st.ctx;
+    const cleared = {
+      name: ctx.prefilled ? ctx.name || DEFAULT_TRADESMAN : DEFAULT_TRADESMAN,
+      cls: ctx.fields?.find((f) => f.k === 'Classification')?.v || 'Unclassified',
+      lr: ctx.lr || 'Unlinked',
+      site: ctx.site || '—',
+      union: ctx.union || '—',
+    };
+    clearAllTimers();
+    set({ ...fresh(), bankTried: false });
+    return cleared;
+  },
+
   resume: (s) => {
+    const cur = get();
+    /* Same tradesman saved earlier in this tab: pick up exactly where it stopped, clock included. */
+    if (cur.sessionStart !== null && cur.ctx.prefilled && cur.ctx.lr === s.lr && cur.ctx.name === s.name && cur.stage !== 'filed') {
+      set({ pinOpen: false, hcmBusy: false, hcmBusyFor: null, dv: { ...cur.dv, open: false } });
+      return;
+    }
     clearAllTimers();
     const docs: ObDocs = s.full
       ? {
@@ -153,6 +190,7 @@ export const useOnboarding = create<OnboardingState>((set, get) => ({
       docs,
       stage: 'extract',
       stageMax: 1,
+      sessionStart: Date.now(),
     });
   },
 
@@ -198,6 +236,7 @@ export const useOnboarding = create<OnboardingState>((set, get) => ({
         preResult: null,
         stage: 'extract',
         stageMax: Math.max(st.stageMax, 1),
+        sessionStart: Date.now(),
         bankTried: true,
         ctx: {
           prefilled: true, lr: 'LR-2026-0142', site: 'LAX Terminal 9 — Central Utility Plant', union: 'UA Local 78', name: nm, doc: 'dispatch-okafor.pdf',
@@ -212,7 +251,7 @@ export const useOnboarding = create<OnboardingState>((set, get) => ({
         edits: {},
       });
     } else {
-      set({ preResult: null, stage: 'extract', stageMax: Math.max(st.stageMax, 1), bankTried: false, ctx: { prefilled: false }, docs: initDocs(false), edits: {} });
+      set({ preResult: null, stage: 'extract', stageMax: Math.max(st.stageMax, 1), sessionStart: Date.now(), bankTried: false, ctx: { prefilled: false }, docs: initDocs(false), edits: {} });
     }
   },
 
@@ -302,7 +341,8 @@ export const useOnboarding = create<OnboardingState>((set, get) => ({
         const nm = get().ctx.name || '';
         set({ hcmBusy: false, hcmBusyFor: null, clock: nm.includes('Marcus') ? '512446' : '667003' });
       } else {
-        set({ hcmBusy: false, hcmBusyFor: null, stage: 'filed', stageMax: 4 });
+        /* Filed to HCM: the packet is in Documents of Record, so the window no longer applies. */
+        set({ hcmBusy: false, hcmBusyFor: null, stage: 'filed', stageMax: 4, sessionStart: null });
       }
     }, 1400);
   },
@@ -320,6 +360,20 @@ export const useOnboarding = create<OnboardingState>((set, get) => ({
   openDv: (patch) => set((st) => ({ dv: { ...st.dv, open: true, page: 1, zoom: 1, rot: 0, url: '', name: null, ...patch } })),
   closeDv: () => set((st) => ({ dv: { ...st.dv, open: false } })),
   dvPatch: (patch) => set((st) => ({ dv: { ...st.dv, ...patch } })),
+}), {
+  name: 'acco-onboarding-session',
+  storage: createJSONStorage(() => sessionStorage),
+  partialize: (s) => ({
+    ctx: s.ctx, docs: s.docs, edits: s.edits, stage: s.stage, stageMax: s.stageMax, clock: s.clock,
+    pkAgree: s.pkAgree, pkSigned: s.pkSigned, pkView: s.pkView, sigDrawn: s.sigDrawn, sigData: s.sigData,
+    pre: s.pre, preDocs: s.preDocs, bankTried: s.bankTried, sessionStart: s.sessionStart,
+  }) as unknown as OnboardingState,
+  merge: (persisted, current) => {
+    const p = (persisted ?? {}) as Partial<OnboardingState>;
+    /* A document mid-upload cannot resume its timer after a reload; treat it as not uploaded. */
+    const docs = p.docs ? Object.fromEntries(Object.entries(p.docs).map(([k, d]) => [k, d.status === 'uploading' || d.status === 'scanning' ? { ...d, status: 'empty', pct: 0 } : d])) as ObDocs : current.docs;
+    return { ...current, ...p, docs };
+  },
 }));
 
 /** Name used for extraction when no dispatch context is linked. */

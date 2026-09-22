@@ -4,6 +4,7 @@ import { OB_STAGES } from '../../lib/data';
 import { useApp } from '../../store/app';
 import { stageKey, useOnboarding } from '../../store/onboarding';
 import { Pill } from '../../components/Pill';
+import { SessionTimer } from '../../components/SessionTimer';
 import { useSessionLink } from '../../components/useSessionLink';
 import { useObDerived } from './derived';
 import { IdentityCheck } from './IdentityCheck';
@@ -39,6 +40,7 @@ export function Onboarding() {
             <h1 className="h1-sm">{d.title}</h1>
             <span className="sub">{d.meta}</span>
             {d.ctx.prefilled && <Pill tone="navy" icon="mail">Dispatch received via union email</Pill>}
+            <SessionTimer />
           </div>
           <div className="row" style={{ gap: 8 }}>
             {stage !== 'filed' && <Button variant="outline" size="sm" iconLeft={kiosk.icon} onClick={kiosk.copy}>{kiosk.label}</Button>}

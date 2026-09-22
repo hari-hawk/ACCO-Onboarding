@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Icon, StatCard } from '../ds';
 import {
   OUTCOME_STYLE, RANGE_DAYS, RANGE_LABEL, RANGE_TABS, REPORT_TODAY, REPORT_UNIONS, SPECIALIST_METRICS, SUPER_METRICS,
-  buildSpecialistHistory, buildSuperHistory,
 } from '../lib/data';
-import type { HistoryRow, ReportRange, SortState } from '../lib/types';
+import { useHistory } from '../lib/history';
+import type { ReportRange, SortState } from '../lib/types';
 import { useApp } from '../store/app';
 import { Pill } from '../components/Pill';
 import { SortHeaders, sortBy } from '../components/SortHeaders';
@@ -14,9 +14,6 @@ type HKey = 'ref' | 'detail' | 'confirm' | 'dt' | 'outcome';
 const COLS = '120px 1fr 170px 105px 150px';
 const PAGE_SIZE = 12;
 const KPI_STYLE = { border: '2px solid var(--ds-bg-blue-light)', borderRadius: 18 } as const;
-
-const SUPER_HISTORY = buildSuperHistory();
-const SPECIALIST_HISTORY = buildSpecialistHistory();
 
 export function Reports() {
   const navigate = useNavigate();
@@ -28,13 +25,13 @@ export function Reports() {
   const [sort, setSort] = useState<SortState<HKey>>({ key: null, dir: 1 });
   const [page, setPage] = useState(1);
   const rangeLabel = RANGE_LABEL[range];
+  const all = useHistory(specialist);
 
   const rows = useMemo(() => {
-    const all: HistoryRow[] = specialist ? SPECIALIST_HISTORY : SUPER_HISTORY;
     const days = RANGE_DAYS[range];
     const inRange = all.filter((r) => (REPORT_TODAY.getTime() - new Date(r.dt).getTime()) / 86400000 <= days);
     return sortBy(inRange, sort, (r, k) => r[k as HKey]);
-  }, [specialist, range, sort]);
+  }, [all, range, sort]);
   const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const cur = Math.min(page, pages);
   const pageRows = rows.slice((cur - 1) * PAGE_SIZE, cur * PAGE_SIZE);

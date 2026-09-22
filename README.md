@@ -26,6 +26,13 @@ Sign in with Microsoft Entra ID is simulated. Pick an account:
 | Alex Porter | Superintendent with an empty workspace | Dashboard (empty states) |
 
 Verification PIN for HCM submissions: `482917` (regenerate from the account menu as Dana).
+
+**Session window.** A tradesman session has 30 minutes from the moment the identity check passes
+(or the session is resumed). A pill timer sits in the onboarding header. Save & resume keeps the same
+clock running; when it reaches zero the documents and extracted fields are cleared, the specialist is
+returned to the sessions list, and the session is recorded on Reports as **Delayed**. Filing to HCM
+stops the clock, and the success screen returns to the sessions list after 10 seconds.
+Both durations live in `src/lib/data.ts` (`SESSION_MINUTES`, `FILED_RETURN_SECONDS`).
 Identity-check samples: William Stout → new hire, Marcus Okafor → rehire, Prakash Anand → Do Not Hire.
 The first void-check upload always fails once so the error branch is visible.
 

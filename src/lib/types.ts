@@ -186,6 +186,20 @@ export interface QueueItem {
   fields: ObField[];
 }
 
+/** An onboarding session whose 30-minute window ran out; recorded for Reports only. */
+export interface ExpiredSession {
+  ref: string;
+  name: string;
+  cls: string;
+  lr: string;
+  site: string;
+  union: string;
+  /** ISO date (YYYY-MM-DD) of expiry, for range filtering. */
+  dt: string;
+  /** Display date and time. */
+  date: string;
+}
+
 export interface HistoryRow {
   ref: string;
   detail: string;

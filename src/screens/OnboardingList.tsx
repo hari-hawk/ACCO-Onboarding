@@ -51,7 +51,7 @@ export function OnboardingList() {
       <div className="row" style={{ justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
         <div className="col" style={{ gap: 4 }}>
           <h1 className="h1">Onboardings</h1>
-          <span className="sub">Every extraction session is saved continuously — the 30-minute timer pauses with it, so any session resumes exactly where it stopped.</span>
+          <span className="sub">Each session has 30 minutes from the identity check. Save &amp; resume keeps your place while the clock runs; when it ends, the session is cleared and recorded on Reports as delayed.</span>
         </div>
         <div className="row" style={{ gap: 8 }}>
           <button type="button" className="icon-btn" aria-label={kiosk.label} title={kiosk.label} onClick={kiosk.copy} style={{ width: 36, height: 36, borderRadius: 6 }}>
@@ -114,7 +114,7 @@ export function OnboardingList() {
           </div>
           <div className="card-foot" style={{ borderRadius: '0 0 16px 16px', marginTop: 'auto' }}>
             <Icon name="info" size={14} style={{ color: 'var(--primary)' }} />
-            <span className="sub">Nothing is lost at the 30-minute mark — Save &amp; resume keeps documents and extracted fields; the timer restarts on resume.</span>
+            <span className="sub">After 30 minutes documents and extracted fields are cleared and nothing is filed — the session appears on Reports as Delayed and must be started again.</span>
           </div>
         </div>
       ) : (

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { ACCOUNTS, DEMO_PIN, SEED_EMAILS, SEED_REQUESTS, type DraftKey } from '../lib/data';
-import type { Account, AccountKey, EmailRec, LaborRequest, QueueItem } from '../lib/types';
+import type { Account, AccountKey, EmailRec, ExpiredSession, LaborRequest, QueueItem } from '../lib/types';
 import { clone } from '../lib/utils';
 
 /* Workspace-level state: who is signed in and everything that outlives a screen. */
@@ -25,6 +25,8 @@ export interface AppState {
   emailGroupCollapsed: Record<string, boolean>;
   /** A tradesman session link was copied: this device is limited to New onboarding. */
   kioskActive: boolean;
+  /** Sessions that hit the 30-minute limit; surfaced on Reports as "Delayed". */
+  expiredSessions: ExpiredSession[];
 
   signIn: (key: AccountKey, email?: string | null) => void;
   signOut: () => void;
@@ -42,6 +44,7 @@ export interface AppState {
   markMdSent: (id: string) => void;
   setPin: (pin: string) => void;
   setKiosk: (on: boolean) => void;
+  addExpiredSession: (e: ExpiredSession) => void;
 }
 
 /* Persisted to sessionStorage so a reload or a deep link keeps the signed-in workspace
@@ -60,6 +63,7 @@ export const useApp = create<AppState>()(persist((set, get) => ({
   pin: DEMO_PIN,
   emailGroupCollapsed: {},
   kioskActive: false,
+  expiredSessions: [],
 
   signIn: (key, email = null) => set({ account: key, pendingEmail: email }),
   signOut: () => set({ account: null, pendingEmail: null, kioskActive: false }),
@@ -113,6 +117,7 @@ export const useApp = create<AppState>()(persist((set, get) => ({
   markMdSent: (id) => set((s) => ({ mdSentFor: { ...s.mdSentFor, [id]: true } })),
   setPin: (pin) => set({ pin }),
   setKiosk: (on) => set({ kioskActive: on }),
+  addExpiredSession: (e) => set((s) => ({ expiredSessions: [e].concat(s.expiredSessions) })),
 }), { name: 'acco-onboarding-workspace', storage: createJSONStorage(() => sessionStorage) }));
 
 /* ── Selectors ───────────────────────────────────────────────────────── */

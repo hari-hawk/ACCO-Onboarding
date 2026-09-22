@@ -1,12 +1,10 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Icon } from '../ds';
-import { OUTCOME_STYLE, buildSpecialistHistory, buildSuperHistory } from '../lib/data';
+import { OUTCOME_STYLE } from '../lib/data';
+import { useHistory } from '../lib/history';
 import type { KV } from '../lib/types';
 import { useApp } from '../store/app';
 import { Pill } from '../components/Pill';
-
-const SPECIALIST_HISTORY = buildSpecialistHistory();
-const SUPER_HISTORY = buildSuperHistory();
 
 /* 3b. Historical record — a closed row from Reports, frozen as filed. */
 export function ReportRecord() {
@@ -14,8 +12,9 @@ export function ReportRecord() {
   const navigate = useNavigate();
   const key = useApp((s) => s.account)!;
   const specialist = key === 'dana';
-  const h = (specialist ? SPECIALIST_HISTORY : SUPER_HISTORY).find((r) => r.ref === ref);
+  const h = useHistory(specialist).find((r) => r.ref === ref);
   if (!h) return <Navigate to="/reports" replace />;
+  const delayed = h.outcome === 'Delayed';
 
   const o = OUTCOME_STYLE[h.outcome] ?? OUTCOME_STYLE.Completed;
   const parts = h.detail.split(' — ');
@@ -59,8 +58,8 @@ export function ReportRecord() {
 
       <div className="card">
         <div className="card-head card-head-xs" style={{ padding: '10px 24px' }}>
-          <h2 className="h3">{specialist ? 'HCM profile — as filed' : 'Labor request — as closed'}</h2>
-          <span className="hint">As filed — values are frozen on close</span>
+          <h2 className="h3">{delayed ? 'Session — expired before filing' : specialist ? 'HCM profile — as filed' : 'Labor request — as closed'}</h2>
+          <span className="hint">{delayed ? 'Nothing was filed — reprocess required' : 'As filed — values are frozen on close'}</span>
         </div>
         <div className="kv-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '14px 20px', padding: '16px 24px' }}>
           {fields.map((f) => (
@@ -75,9 +74,11 @@ export function ReportRecord() {
       <div className="row" style={{ gap: 8, padding: '10px 14px', background: 'var(--ds-bg-gray-light)', border: '1px solid var(--border)', borderRadius: 10 }}>
         <Icon name="info" size={13} style={{ color: 'var(--muted-foreground)', flex: '0 0 auto' }} />
         <span className="hint">
-          {specialist
-            ? 'Documents are not retained on closed records — the signed packet was routed to the respective departments. Only the filed profile data is shown here.'
-            : 'This request is closed — emailing, sharing and edits are disabled. The data shown is the request as it was closed.'}
+          {delayed
+            ? 'This session ran past its 30-minute window before filing. Documents and extracted fields were cleared and nothing reached HCM — start the onboarding again from the sessions list.'
+            : specialist
+              ? 'Documents are not retained on closed records — the signed packet was routed to the respective departments. Only the filed profile data is shown here.'
+              : 'This request is closed — emailing, sharing and edits are disabled. The data shown is the request as it was closed.'}
         </span>
       </div>
     </div>

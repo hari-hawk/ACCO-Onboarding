@@ -1,5 +1,5 @@
 import type {
-  Account, AccountKey, DocKey, EmailRec, FormClass, HistoryRow, KV, LaborForm, LaborRequest,
+  Account, AccountKey, DocKey, EmailRec, ExpiredSession, FormClass, HistoryRow, KV, LaborForm, LaborRequest,
   ReportRange, RequestStatus, Session, StatusDef,
 } from './types';
 import { MIGUEL_PHOTO } from './miguelPhoto';
@@ -325,7 +325,24 @@ export const OUTCOME_STYLE: Record<string, { icon: string; bg: string; fg: strin
   'In verification': { icon: 'clock', bg: 'var(--status-review-required-bg)', fg: 'var(--status-review-required)' },
   'Closed': { icon: 'circle-x', bg: 'var(--muted)', fg: 'var(--muted-foreground)' },
   'Withdrawn': { icon: 'minus', bg: 'var(--muted)', fg: 'var(--muted-foreground)' },
+  'Delayed': { icon: 'timer', bg: 'var(--status-review-required-bg)', fg: 'var(--status-review-required)' },
 };
+
+/** Minutes a tradesman session may run after the identity check before its data is cleared. */
+export const SESSION_MINUTES = 30;
+/** Seconds the filed screen waits before returning to the page the session came from. */
+export const FILED_RETURN_SECONDS = 10;
+
+export function expiredToHistoryRow(e: ExpiredSession): HistoryRow {
+  return {
+    ref: e.ref,
+    detail: `${e.name} — ${e.cls} · ${e.lr}`,
+    confirm: `Session expired after ${SESSION_MINUTES} min — data cleared, reprocess required`,
+    dt: e.dt,
+    date: e.date,
+    outcome: 'Delayed',
+  };
+}
 
 const REPORT_TODAY = new Date(2026, 8, 9);
 export { REPORT_TODAY };
