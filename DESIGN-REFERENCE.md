@@ -7,7 +7,7 @@ regenerated on every `npm run dev` / `npm run build` by `scripts/design-referenc
 Tables marked *generated* below are rewritten by that script; edit the script, not the table.
 
 <!-- stamp:start -->
-Generated 2026-09-24T10:30:05.765Z from commit `bd4fb6c`.
+Tables below are regenerated from the source tree on every build. The commit and build time live in `/design-reference.json`.
 <!-- stamp:end -->
 
 ## 1. Credential-free access

@@ -186,7 +186,8 @@ if (md) {
   replace('screens', screenTable);
   replace('states', stateTable);
   replace('hooks', hookTable);
-  replace('stamp', `Generated ${reference.builtAt} from commit \`${reference.commit}\`.`);
+  // No timestamp here: the tables only change when source changes, so the file stays clean in git.
+  replace('stamp', 'Tables below are regenerated from the source tree on every build. The commit and build time live in `/design-reference.json`.');
   writeFileSync(mdPath, md);
 }
 
