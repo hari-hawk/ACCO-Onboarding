@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Icon, StatCard } from '../ds';
 import { SESSIONS_TAIL, SESSION_IBANEZ, SESSION_STOUT, SESSION_STATUS } from '../lib/data';
+import { PREVIEW } from '../lib/preview';
 import type { Session, SortState } from '../lib/types';
 import { useApp } from '../store/app';
 import { useOnboarding } from '../store/onboarding';
@@ -31,7 +32,7 @@ export function OnboardingList() {
   const kiosk = useSessionLink();
 
   const sessions = useMemo<Session[]>(() => {
-    if (!specialist) return [];
+    if (!specialist || PREVIEW.empty) return [];
     const queued: Session[] = obQueue.map((q) => ({ name: q.name, cls: q.cls, lr: q.lr, site: q.site, docs: '1 / 4', stage: 'Extract & identity', session: 'Queued — moved by M. Santos', sIcon: 'inbox', sBg: 'var(--ds-bg-blue-light)', sFg: 'var(--primary)', fields: q.fields, doc: q.doc, union: q.union }));
     const base = [SESSION_STOUT].concat(queued).concat([SESSION_IBANEZ].filter((o) => !obQueue.some((q) => q.lr === o.lr && q.name === o.name))).concat(SESSIONS_TAIL);
     return sortBy(base, sort, (r, k) => r[k as SKey]).map((o) => {
@@ -50,7 +51,7 @@ export function OnboardingList() {
     <div className="page">
       <div className="row" style={{ justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
         <div className="col" style={{ gap: 4 }}>
-          <h1 className="h1">Onboardings</h1>
+          <h1 className="h1" data-ds="page-title">Onboardings</h1>
           <span className="sub">Each session has 30 minutes from the identity check. Save &amp; resume keeps your place while the clock runs; when it ends, the session is cleared and recorded on Reports as delayed.</span>
         </div>
         <div className="row" style={{ gap: 8 }}>
@@ -68,7 +69,7 @@ export function OnboardingList() {
       </div>
 
       {specialist ? (
-        <div className="card col" style={{ flex: 1, minHeight: 0, overflow: 'visible' }}>
+        <div className="card col" data-ds="section-card" style={{ flex: 1, minHeight: 0, overflow: 'visible' }}>
           <div className="table-scroll" style={{ borderRadius: '16px 16px 0 0' }}>
             <div style={{ minWidth: 1040 }}>
               <SortHeaders defs={DEFS} sort={sort} onChange={setSort} columns={COLS} padding="8px 20px" trailingBlank iconSize={11} />
@@ -77,7 +78,7 @@ export function OnboardingList() {
                   const k2 = `${o.lr}|${o.name}`;
                   const open = menuFor === k2;
                   return (
-                    <div key={k2} className="trow" style={{ gridTemplateColumns: COLS, padding: '10px 20px' }}>
+                    <div key={k2} className="trow" data-ds="table-row" style={{ gridTemplateColumns: COLS, padding: '10px 20px' }}>
                       <div className="row" style={{ gap: 10, minWidth: 0 }}>
                         <Avatar name={o.name} size="sm" style={{ width: 28, height: 28 }} />
                         <div className="col" style={{ gap: 1, minWidth: 0 }}>

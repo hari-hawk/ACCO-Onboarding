@@ -7,7 +7,7 @@ import { useObDerived } from './derived';
 
 function LockedValue({ label, value, tag, mono }: { label: string; value: string; tag: string; mono?: boolean }) {
   return (
-    <div className="field">
+    <div className="field" data-ds="form-field">
       <span className="label">{label}</span>
       <div className="locked"><span className={mono ? 'mono' : undefined}>{value}</span><span className="locked-tag"><Icon name="lock" size={10} />{tag}</span></div>
     </div>
@@ -80,7 +80,7 @@ export function Sign() {
 
   return (
     <div className="page ob-sign">
-      <div className="card col" style={{ minHeight: 0 }}>
+      <div className="card col" data-ds="section-card" style={{ minHeight: 0 }}>
         <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)' }}><span className="overline-xs" style={{ letterSpacing: '.08em' }}>Packet — CA · {d.union} · New hire</span></div>
         <div className="col" style={{ flex: 1, padding: 6 }}>
           {PACKET.map((p) => {
@@ -96,7 +96,7 @@ export function Sign() {
         <div className="card-foot" style={{ padding: '10px 16px' }}><span className="hint" style={{ lineHeight: 1.5 }}>Signed <span className="mono" style={{ fontWeight: 600 }}>{pkSigned ? '12 of 12' : '0 of 12'}</span> · stamped {clock} · 09/08/2026</span></div>
       </div>
 
-      <div className="card col" style={{ minHeight: 0 }}>
+      <div className="card col" data-ds="section-card" style={{ minHeight: 0 }}>
         <div className="card-head card-head-sm">
           <h2 style={{ fontSize: 15, fontWeight: 600 }}>{curTitle}</h2>
           <span className="hint">Pre-filled from documents, HCM and dispatch</span>
@@ -108,7 +108,7 @@ export function Sign() {
             <LockedValue label="Hire date" value="07/07/2026" tag="From dispatch" />
             <LockedValue label="Classification" value="Jrny Fitter · Local 246" tag="From dispatch" />
           </div>
-          <div className="field">
+          <div className="field" data-ds="form-field">
             <span className="label" style={{ color: 'var(--muted-foreground)' }}>{curSub}</span>
             <SkelLines widths={['92%', '84%', '89%', '62%']} bg="var(--muted)" style={{ padding: 14, border: '1px solid var(--border)', borderRadius: 10, background: 'var(--background)' }} />
           </div>
@@ -123,7 +123,7 @@ export function Sign() {
         <div className="card-foot" style={{ padding: '10px 20px' }}><span className="hint">Select any form on the left to review its filled data. Use the stage breadcrumb above to move backward or forward at any time.</span></div>
       </div>
 
-      <div className="card col" style={{ minHeight: 0 }}>
+      <div className="card col" data-ds="section-card" style={{ minHeight: 0 }}>
         <div style={{ padding: '12px 18px', borderBottom: '1px solid var(--border)' }}><h2 className="h3">Sign once</h2></div>
         <div className="col" style={{ flex: 1, gap: 12, padding: '16px 18px', overflow: 'auto' }}>
           <div className="col" style={{ position: 'relative', gap: 4 }}>

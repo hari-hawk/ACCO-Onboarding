@@ -17,7 +17,7 @@ export function Extract() {
 
   return (
     <div className="page ob-extract">
-      <div className="card col">
+      <div className="card col" data-ds="section-card">
         <div className="card-head" style={{ padding: '14px 16px' }}>
           <h2 className="h3">Documents</h2>
           <span className="mono hint">{d.readyCount} / 4 ready</span>
@@ -117,7 +117,7 @@ export function Extract() {
         <div className="card-foot" style={{ padding: '10px 16px' }}><span className="hint" style={{ lineHeight: 1.5 }}>PNG, JPEG, PDF, DOC, DOCX, HEIC · ≤10 MB per file.</span></div>
       </div>
 
-      <div className="card col">
+      <div className="card col" data-ds="section-card">
         <div className="card-head">
           <h2 className="h3">Extracted data</h2>
           <Button variant="action" size="sm" iconRight="arrow-right" disabled={d.confirmDisabled} onClick={confirmProfile}>Confirm &amp; create profile</Button>

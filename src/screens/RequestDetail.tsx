@@ -34,7 +34,7 @@ function buildEmail(r: LaborRequest, acctName: string, union: string | null) {
 
 function KVGrid({ title, fields, right }: { title: string; fields: KV[]; right?: string }) {
   return (
-    <div className="card">
+    <div className="card" data-ds="section-card">
       <div className="card-head card-head-xs"><h2 className="h3">{title}</h2>{right && <span className="hint">{right}</span>}</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '12px 16px', padding: '12px 20px' }}>
         {fields.map((f) => (
@@ -179,7 +179,7 @@ export function RequestDetail() {
       <div className="page-bar" style={{ flexWrap: 'wrap' }}>
         <div className="row" style={{ gap: 12, flexWrap: 'wrap' }}>
           <button type="button" className="icon-btn s32" aria-label={sel.hist ? 'Back to reports' : 'Back to dashboard'} onClick={() => navigate(sel.hist ? '/reports' : '/dashboard')}><Icon name="chevron-left" size={16} /></button>
-          <h1 className="h1">Labor request <span className="mono" style={{ color: 'var(--primary)' }}>{sel.id}</span></h1>
+          <h1 className="h1" data-ds="page-title">Labor request <span className="mono" style={{ color: 'var(--primary)' }}>{sel.id}</span></h1>
           <Pill bg={st.bg} fg={st.fg} icon={st.icon} style={{ padding: '2px 10px' }}>{st.label}</Pill>
           {(!isOwner || sel.hist) && <Pill tone="muted" icon="eye" style={{ padding: '2px 10px' }}>{viewOnlyLabel}</Pill>}
         </div>
@@ -208,7 +208,7 @@ export function RequestDetail() {
           <div className="col" style={{ gap: 12 }}>
             <KVGrid title="Request details" fields={sel.fields} />
             <KVGrid title="Job site & legal employer" fields={sel.siteFields} />
-            <div className="card">
+            <div className="card" data-ds="section-card">
               <div className="card-head card-head-xs"><h2 className="h3">Classifications</h2><span className="hint">Complete a row, or reopen the remainder as a subticket to another union</span></div>
               <div className="table-scroll">
                 <div style={{ minWidth: 900 }}>
@@ -269,7 +269,7 @@ export function RequestDetail() {
 
           <div className="col" style={{ gap: 12 }}>
             {sel.response && (
-              <div className="card" style={{ border: '1px solid var(--status-pre-approved)' }}>
+              <div className="card" data-ds="section-card" style={{ border: '1px solid var(--status-pre-approved)' }}>
                 <div className="card-head card-head-sm"><h2 className="h3">Union response</h2><Pill tone="navy" icon="sparkles" iconSize={11}>Parsed automatically</Pill></div>
                 <div className="col" style={{ gap: 10, padding: '12px 20px' }}>
                   <span style={{ fontSize: 12, lineHeight: 1.5 }}><strong>{sel.response.union}</strong> · {sel.response.time} — {sel.response.summary}</span>
@@ -320,7 +320,7 @@ export function RequestDetail() {
             )}
 
             {mdShow && (
-              <div className="card col" style={{ padding: '16px 20px', gap: 10 }}>
+              <div className="card col" data-ds="section-card" style={{ padding: '16px 20px', gap: 10 }}>
                 <div className="col" style={{ gap: 2 }}>
                   <span className="overline">Union responded off-platform?</span>
                   <span className="sub" style={{ lineHeight: 1.5 }}>If the union confirmed in person or by phone and handed over the tradesman documents, drop them here and route them to the onboarding specialist.</span>
@@ -354,7 +354,7 @@ export function RequestDetail() {
               </div>
             )}
 
-            <div className="card col" style={{ padding: '16px 20px', gap: 10 }}>
+            <div className="card col" data-ds="section-card" style={{ padding: '16px 20px', gap: 10 }}>
               <span className="overline">Union activity</span>
               {sel.activity.map((a, i) => (
                 <div key={i} className="row" style={{ gap: 10, alignItems: 'flex-start' }}>
@@ -367,7 +367,7 @@ export function RequestDetail() {
               ))}
             </div>
             {SHOW_NEXT_STEP_GUIDANCE && (
-              <div className="card col" style={{ padding: '16px 20px', gap: 8 }}>
+              <div className="card col" data-ds="section-card" style={{ padding: '16px 20px', gap: 8 }}>
                 <span className="overline">What happens next</span>
                 <span className="sub" style={{ lineHeight: 1.6 }}>Union replies are parsed automatically: confirmed dispatches complete their classification and move to the onboarding specialist's extraction queue. When a union fills only part of a request, transfer the remainder to another union as a subticket — it keeps this request as its parent.</span>
               </div>

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { ACCOUNTS, DEMO_PIN, SEED_EMAILS, SEED_REQUESTS, type DraftKey } from '../lib/data';
+import { PREVIEW } from '../lib/preview';
 import type { Account, AccountKey, EmailRec, ExpiredSession, LaborRequest, QueueItem } from '../lib/types';
 import { clone } from '../lib/utils';
 
@@ -135,19 +136,19 @@ export function useActiveEmail(): string {
 export function useRequests(): LaborRequest[] {
   const key = useApp((s) => s.account);
   const all = useApp((s) => s.requests);
-  return key ? all[key] : [];
+  return key && !PREVIEW.empty ? all[key] : [];
 }
 
 export function useEmails(): EmailRec[] {
   const key = useApp((s) => s.account);
   const all = useApp((s) => s.emails);
-  return key ? all[key] : [];
+  return key && !PREVIEW.empty ? all[key] : [];
 }
 
 export function useDrafts(): DraftKey[] {
   const key = useApp((s) => s.account);
   const all = useApp((s) => s.drafts);
-  return key ? all[key] : [];
+  return key && !PREVIEW.empty ? all[key] : [];
 }
 
 export function landingFor(key: AccountKey): string {

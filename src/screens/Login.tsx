@@ -107,7 +107,7 @@ export function Login() {
 
         {popup !== 'closed' && (
           <div style={{ position: 'absolute', inset: 0, background: '#101828', zIndex: 'var(--z-modal)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-            <div className="card" role="region" aria-label="Microsoft Entra ID sign-in" onClick={stop} style={{ width: 440, maxWidth: '100%', borderRadius: 12 }}>
+            <div className="card" data-ds="sign-in-card" role="region" aria-label="Microsoft Entra ID sign-in" onClick={stop} style={{ width: 440, maxWidth: '100%', borderRadius: 12 }}>
               <div className="row" style={{ justifyContent: 'space-between', padding: '12px 16px', borderBottom: '1px solid var(--border)', background: 'var(--ds-bg-gray-light)' }}>
                 <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--muted-foreground)' }}>login.microsoftonline.com</span>
                 <button type="button" className="ghost-icon" aria-label="Close sign-in popup" onClick={closePopup}><Icon name="x" size={14} /></button>

@@ -24,6 +24,7 @@ export function SelectMenu({ value, placeholder, options, onChange, ariaLabel, t
     <div ref={ref} style={{ position: 'relative', ...style }}>
       <button
         type="button"
+        data-ds="select"
         className={`select-btn${value ? '' : ' placeholder'}`}
         aria-haspopup="listbox"
         aria-expanded={open}

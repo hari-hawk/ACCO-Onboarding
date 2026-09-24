@@ -44,7 +44,7 @@ export function Profile() {
         </div>
       )}
 
-      <div className="card">
+      <div className="card" data-ds="section-card">
         <div className="card-head card-head-xs" style={{ padding: '10px 24px' }}>
           <h2 className="h3">Onboarding record — pre-filled from documents</h2>
           <span className="hint">Edit any value back on the documents step</span>

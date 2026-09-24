@@ -44,7 +44,7 @@ export function ReportRecord() {
           <button type="button" className="icon-btn s32" aria-label="Back to reports" onClick={() => navigate('/reports')}><Icon name="chevron-left" size={15} /></button>
           <div className="col" style={{ gap: 2 }}>
             <div className="row" style={{ gap: 10, flexWrap: 'wrap' }}>
-              <h1 className="h1">{title}</h1>
+              <h1 className="h1" data-ds="page-title">{title}</h1>
               <Pill bg={o.bg} fg={o.fg} icon={o.icon} iconSize={11}>{h.outcome}</Pill>
             </div>
             <span className="sub">{(parts[1] || '')} · Clock {h.ref} · Historical record — read-only</span>
@@ -56,7 +56,7 @@ export function ReportRecord() {
         </div>
       </div>
 
-      <div className="card">
+      <div className="card" data-ds="section-card">
         <div className="card-head card-head-xs" style={{ padding: '10px 24px' }}>
           <h2 className="h3">{delayed ? 'Session — expired before filing' : specialist ? 'HCM profile — as filed' : 'Labor request — as closed'}</h2>
           <span className="hint">{delayed ? 'Nothing was filed — reprocess required' : 'As filed — values are frozen on close'}</span>

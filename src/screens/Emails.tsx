@@ -61,7 +61,7 @@ export function Emails() {
   return (
     <div className="page-fill">
       <div className="page-bar" style={{ justifyContent: 'flex-start' }}>
-        <h1 className="h1-sm">Union emails</h1>
+        <h1 className="h1-sm" data-ds="page-title">Union emails</h1>
         {unread > 0 && <Pill tone="navy" style={{ padding: '2px 10px', gap: 5 }}><span style={{ width: 7, height: 7, borderRadius: 999, background: 'var(--primary)' }} />{unread} unread</Pill>}
         <span className="hint ml-auto">Sent from <span className="mono">{TEAM_ADDRESS}</span> · responses parsed automatically</span>
       </div>
@@ -86,7 +86,7 @@ export function Emails() {
               const un = g.rows.filter((e) => e.unread).length;
               return (
                 <div key={g.name} className="col">
-                  <button type="button" aria-expanded={open} aria-label={`${g.name} — ${open ? 'collapse' : 'expand'}`} className="list-row" style={{ gap: 8, padding: '9px 16px', background: 'var(--ds-bg-gray-light)', position: 'sticky', top: 0, zIndex: 5 }} onClick={() => toggleGroup(g.name)}>
+                  <button type="button" aria-expanded={open} aria-label={`${g.name} — ${open ? 'collapse' : 'expand'}`} className="list-row" data-ds="table-row" style={{ gap: 8, padding: '9px 16px', background: 'var(--ds-bg-gray-light)', position: 'sticky', top: 0, zIndex: 5 }} onClick={() => toggleGroup(g.name)}>
                     <Icon name={open ? 'chevron-down' : 'chevron-right'} size={13} style={{ color: 'var(--muted-foreground)' }} />
                     <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase', flex: 1 }}>{g.name}</span>
                     {un > 0 && <span className="count-badge">{un}</span>}
@@ -95,7 +95,7 @@ export function Emails() {
                   {open && g.rows.map((e) => {
                     const on = cur?.id === e.id;
                     return (
-                      <button key={e.id} type="button" className={`email-row${on ? ' on' : ''}`} aria-label={`${e.peer}: ${e.subject}`} onClick={() => select(e)}>
+                      <button key={e.id} type="button" data-ds="table-row" className={`email-row${on ? ' on' : ''}`} aria-label={`${e.peer}: ${e.subject}`} onClick={() => select(e)}>
                         <div className="row" style={{ justifyContent: 'space-between', gap: 8, width: '100%' }}>
                           <span className="row" style={{ gap: 6, fontSize: 12, fontWeight: 600 }}>
                             {e.unread && <span style={{ width: 7, height: 7, borderRadius: 999, background: 'var(--primary)', flex: '0 0 auto' }} />}
@@ -120,7 +120,7 @@ export function Emails() {
 
           <div className="col" style={{ padding: '16px 20px', gap: 12, minHeight: 0, overflow: 'auto' }}>
             {cur && (
-              <div className="card col" style={{ flex: 1 }}>
+              <div className="card col" data-ds="section-card" style={{ flex: 1 }}>
                 <div className="col" style={{ gap: 8, padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
                   <div className="row" style={{ gap: 10, flexWrap: 'wrap' }}>
                     <h2 style={{ fontSize: 15, fontWeight: 600 }}>{cur.subject}</h2>

@@ -25,6 +25,7 @@ export function NavBar({ product = 'Submittals', items = [], activeId, onSelect,
   );
   return (
     <header
+      data-ds="nav-bar"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -54,6 +55,8 @@ export function NavBar({ product = 'Submittals', items = [], activeId, onSelect,
             <button
               key={it.id}
               type="button"
+              data-ds="nav-item"
+              data-ds-active={on || undefined}
               onClick={() => onSelect?.(it.id)}
               style={{
                 display: 'inline-flex',

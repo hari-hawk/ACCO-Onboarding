@@ -25,7 +25,7 @@ export function Filed() {
 
   return (
     <div className="page">
-      <div className="card col" style={{ alignItems: 'center', gap: 14, padding: '44px 48px', textAlign: 'center' }}>
+      <div className="card col" data-ds="section-card" style={{ alignItems: 'center', gap: 14, padding: '44px 48px', textAlign: 'center' }}>
         <span className="round-icon" style={{ width: 56, height: 56, background: 'var(--status-pre-approved-bg)', color: 'var(--status-pre-approved)' }}><Icon name="circle-check" size={30} /></span>
         <span style={{ fontSize: 22, fontWeight: 600, letterSpacing: 'var(--ls-tight)' }}>Onboarding complete — {d.title}</span>
         <span style={{ fontSize: 13, color: 'var(--muted-foreground)', maxWidth: 520, lineHeight: 1.6 }}>The signed packet was filed into HCM Documents of Record against this worker — no Box, no re-keying.</span>

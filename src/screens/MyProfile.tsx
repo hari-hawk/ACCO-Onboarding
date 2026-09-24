@@ -27,8 +27,8 @@ export function MyProfile() {
 
   return (
     <div className="page">
-      <h1 className="h1">My profile</h1>
-      <div className="card">
+      <h1 className="h1" data-ds="page-title">My profile</h1>
+      <div className="card" data-ds="section-card">
         <div className="row" style={{ gap: 16, padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
           <span className="round-icon" style={{ position: 'relative', width: 64, height: 64, background: 'var(--nav)', color: '#fff', fontSize: 20, fontWeight: 700, overflow: 'visible' }}>
             {acct.photo ? (
@@ -60,7 +60,7 @@ export function MyProfile() {
         </div>
       </div>
 
-      <div className="card">
+      <div className="card" data-ds="section-card">
         <div className="card-head card-head-sm" style={{ padding: '12px 24px' }}><h2 className="h3">Access &amp; permissions</h2></div>
         {!isSpecialist && (
           <>

@@ -38,7 +38,7 @@ export function IdentityCheck() {
         <span style={{ fontSize: 16, fontWeight: 600, letterSpacing: 'var(--ls-tight)' }}>Identity check — before any documents</span>
         <span className="sub">Enter the tradesman's legal identity. HCM confirms instantly whether this is a new hire, a rehire with a record on file, or a Do Not Hire.</span>
       </div>
-      <div className="card card-open">
+      <div className="card card-open" data-ds="section-card">
         <div className="two-col" style={{ gridTemplateColumns: '1fr 1fr', gap: '12px 16px', padding: '16px 24px', borderBottom: '1px solid var(--border)' }}>
           {SLOTS.map((def) => {
             const d = preDocs[def.key];
@@ -75,10 +75,10 @@ export function IdentityCheck() {
           })}
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px 16px', padding: '16px 24px' }}>
-          <div className="field"><label htmlFor="pre-first" className="label">Legal first name<span className="req"> *</span></label><input id="pre-first" className="input" placeholder="First name" value={pre.first} onChange={(e) => setPre('first', e.target.value)} /></div>
-          <div className="field"><label htmlFor="pre-last" className="label">Legal last name<span className="req"> *</span></label><input id="pre-last" className="input" placeholder="Last name" value={pre.last} onChange={(e) => setPre('last', e.target.value)} /></div>
-          <div className="field"><label htmlFor="pre-ssn" className="label">SSN<span className="req"> *</span></label><input id="pre-ssn" className="input mono" placeholder="•••-••-••••" value={pre.ssn} onChange={(e) => setPre('ssn', e.target.value)} /></div>
-          <div className="field">
+          <div className="field" data-ds="form-field"><label htmlFor="pre-first" className="label">Legal first name<span className="req"> *</span></label><input id="pre-first" className="input" placeholder="First name" value={pre.first} onChange={(e) => setPre('first', e.target.value)} /></div>
+          <div className="field" data-ds="form-field"><label htmlFor="pre-last" className="label">Legal last name<span className="req"> *</span></label><input id="pre-last" className="input" placeholder="Last name" value={pre.last} onChange={(e) => setPre('last', e.target.value)} /></div>
+          <div className="field" data-ds="form-field"><label htmlFor="pre-ssn" className="label">SSN<span className="req"> *</span></label><input id="pre-ssn" className="input mono" placeholder="•••-••-••••" value={pre.ssn} onChange={(e) => setPre('ssn', e.target.value)} /></div>
+          <div className="field" data-ds="form-field">
             <label htmlFor="pre-dob" className="label">Date of birth<span className="req"> *</span></label>
             <DateTimePicker id="pre-dob" mono ariaLabel="Date of birth" placeholder="MM/DD/YYYY" value={pre.dob} onChange={(v) => setPre('dob', v)} />
           </div>
@@ -88,7 +88,7 @@ export function IdentityCheck() {
           <div className="ml-auto"><Button variant="action" size="sm" iconLeft="scan-search" disabled={incomplete} onClick={checkIdentity}>Check identity in HCM</Button></div>
         </div>
       </div>
-      <div className="card col" style={{ padding: '14px 24px', gap: 10 }}>
+      <div className="card col" data-ds="section-card" style={{ padding: '14px 24px', gap: 10 }}>
         <span className="overline">Sample records — the check branches the flow</span>
         <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
           {PRE_SAMPLES.map((p) => (

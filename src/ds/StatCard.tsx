@@ -15,6 +15,7 @@ export function StatCard({ label, value, delta, deltaTone = 'neutral', icon, foo
   const dc = deltaTone === 'up' ? 'var(--status-pre-approved)' : deltaTone === 'down' ? 'var(--status-action-mandatory)' : 'var(--muted-foreground)';
   return (
     <div
+      data-ds="kpi-tile"
       style={{
         display: 'flex',
         flexDirection: 'column',

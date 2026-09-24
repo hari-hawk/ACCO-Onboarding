@@ -19,7 +19,7 @@ export interface PillProps {
 export function Pill({ tone = 'muted', bg, fg, icon, iconSize = 12, xs, className = '', style, children }: PillProps) {
   const cls = `pill ${xs ? 'pill-xs' : ''} ${bg ? '' : `pill-${tone}`} ${className}`;
   return (
-    <span className={cls} style={{ background: bg, color: fg, ...style }}>
+    <span className={cls} data-ds="status-badge" data-ds-tone={tone} style={{ background: bg, color: fg, ...style }}>
       {icon && <Icon name={icon} size={iconSize} />}
       {children}
     </span>

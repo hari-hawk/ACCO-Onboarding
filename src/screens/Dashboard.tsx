@@ -50,7 +50,7 @@ export function Dashboard() {
   return (
     <div className="page">
       <div className="row" style={{ justifyContent: 'space-between' }}>
-        <h1 className="h1">Labor requests &amp; onboarding</h1>
+        <h1 className="h1" data-ds="page-title">Labor requests &amp; onboarding</h1>
         {newRequest}
       </div>
 
@@ -63,7 +63,7 @@ export function Dashboard() {
 
       {reqs.length > 0 ? (
         <div className="two-col" style={{ gridTemplateColumns: '1fr 380px', flex: 1, minHeight: 0, alignItems: 'stretch' }}>
-          <div className="card card-open col">
+          <div className="card card-open col" data-ds="section-card">
             <div className="card-head">
               <div className="row" style={{ gap: 10 }}>
                 <h2 className="h3">Active labor requests</h2>
@@ -98,7 +98,7 @@ export function Dashboard() {
                   {filtered.map((r) => {
                     const t = STATUS[r.status];
                     return (
-                      <button key={r.id} type="button" className="trow" aria-label={`Open ${r.id} — ${r.site}`} style={{ gridTemplateColumns: COLS }} onClick={() => open(r.id)}>
+                      <button key={r.id} type="button" className="trow" data-ds="table-row" aria-label={`Open ${r.id} — ${r.site}`} style={{ gridTemplateColumns: COLS }} onClick={() => open(r.id)}>
                         <span className="mono" style={{ fontSize: 12, fontWeight: 600, color: 'var(--primary)' }}>{r.id}</span>
                         <span className="truncate" style={{ fontSize: 12, fontWeight: 500 }}>{r.site}</span>
                         <span className="truncate sub">{r.cls}</span>
@@ -124,7 +124,7 @@ export function Dashboard() {
 
           <div className="col" style={{ gap: 16, minHeight: 0 }}>
             {drafts.length > 0 && (
-              <div className="card" style={{ border: '1px dashed var(--border-strong)', flex: '0 0 auto' }}>
+              <div className="card" data-ds="section-card" style={{ border: '1px dashed var(--border-strong)', flex: '0 0 auto' }}>
                 <div className="card-head card-head-sm">
                   <h2 className="h3">Draft labor requests</h2>
                   <span className="pill pill-muted" style={{ padding: '1px 8px' }}>{drafts.length} draft{drafts.length === 1 ? '' : 's'}</span>
@@ -132,7 +132,7 @@ export function Dashboard() {
                 {drafts.map((key) => {
                   const d = DRAFT_DEFS[key];
                   return (
-                    <button key={key} type="button" className="list-row" aria-label={`Open draft — ${d.site}`} style={{ padding: '12px 20px' }} onClick={() => navigate(`/drafts/${key}`)}>
+                    <button key={key} type="button" className="list-row" data-ds="table-row" aria-label={`Open draft — ${d.site}`} style={{ padding: '12px 20px' }} onClick={() => navigate(`/drafts/${key}`)}>
                       <span className="icon-tile" style={{ background: 'var(--muted)', color: 'var(--muted-foreground)' }}><Icon name="pencil" size={14} /></span>
                       <div className="col flex-1" style={{ gap: 1 }}>
                         <span style={{ fontSize: 12, fontWeight: 600 }}>{d.site}</span>
@@ -144,13 +144,13 @@ export function Dashboard() {
                 })}
               </div>
             )}
-            <div className="card col" style={{ border: '1px solid var(--accent-gold)', flex: '0 0 auto' }}>
+            <div className="card col" data-ds="section-card" style={{ border: '1px solid var(--accent-gold)', flex: '0 0 auto' }}>
               <div className="card-head"><h2 className="h3">Pending union responses</h2></div>
               <div className="col">
                 {pending.map((p) => {
                   const over = p.status === 'overdue';
                   return (
-                    <button key={p.id} type="button" className="list-row" aria-label={`Open ${p.id}`} onClick={() => open(p.id)}>
+                    <button key={p.id} type="button" className="list-row" data-ds="table-row" aria-label={`Open ${p.id}`} onClick={() => open(p.id)}>
                       <div className="col flex-1" style={{ gap: 1 }}>
                         <span className="mono" style={{ fontSize: 12, fontWeight: 600, color: 'var(--primary)' }}>{p.id}</span>
                         <span className="hint truncate">{p.pendNote}</span>
@@ -164,7 +164,7 @@ export function Dashboard() {
               </div>
             </div>
             {SHOW_NEXT_STEP_GUIDANCE && (
-              <div className="card col" style={{ padding: '14px 20px', gap: 8, flex: '0 0 auto' }}>
+              <div className="card col" data-ds="section-card" style={{ padding: '14px 20px', gap: 8, flex: '0 0 auto' }}>
                 <span className="overline">Next on requests</span>
                 <span className="sub" style={{ lineHeight: 1.6 }}>A response without a dispatch after 5 business days suggests escalation. Union replies are parsed automatically — confirmed dispatches complete their classification and start onboarding.</span>
               </div>

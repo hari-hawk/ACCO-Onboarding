@@ -82,3 +82,9 @@ Import the GitHub repository in Vercel. It detects Vite automatically:
 | Install command | `npm install` |
 
 No rewrites are needed: the app uses hash routing, so every deep link (for example `/#/onboardings`) resolves from `index.html`. No environment variables are required; all data is mocked in `src/lib/data.ts`.
+
+## For the production team
+
+See [DESIGN-REFERENCE.md](DESIGN-REFERENCE.md) for credential-free access (`/?as=dana#/onboardings`),
+`data-ds` test hooks, per-screen status and intentional constraints. The same data is served at
+`/design-reference.json` and regenerated on every build.

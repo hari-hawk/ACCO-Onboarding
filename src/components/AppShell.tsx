@@ -73,7 +73,7 @@ export function AppShell() {
           </button>
 
           {notifOpen && (
-            <div className="card" role="dialog" aria-label="Notifications" style={{ position: 'absolute', top: 40, right: 0, width: 'min(360px, calc(100vw - 32px))', borderRadius: 12, boxShadow: 'var(--elev-3)', color: 'var(--foreground)' }}>
+            <div className="card" data-ds="notifications-popover" role="dialog" aria-label="Notifications" style={{ position: 'absolute', top: 40, right: 0, width: 'min(360px, calc(100vw - 32px))', borderRadius: 12, boxShadow: 'var(--elev-3)', color: 'var(--foreground)' }}>
               <div className="row" style={{ justifyContent: 'space-between', padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
                 <span style={{ fontSize: 13, fontWeight: 600 }}>Notifications</span>
                 <button type="button" className="link-btn" style={{ fontWeight: 500 }} onClick={closeAll}>Mark all read</button>
@@ -81,7 +81,7 @@ export function AppShell() {
               {notifs.length > 0 ? (
                 <div className="col">
                   {notifs.map((n, i) => (
-                    <button key={i} type="button" className="list-row" style={{ alignItems: 'flex-start', padding: '12px 16px' }} onClick={() => { closeAll(); n.go(); }}>
+                    <button key={i} type="button" className="list-row" data-ds="notification-item" style={{ alignItems: 'flex-start', padding: '12px 16px' }} onClick={() => { closeAll(); n.go(); }}>
                       <span className="icon-tile" style={{ background: n.bg, color: n.fg }}><Icon name={n.icon} size={14} /></span>
                       <div className="col" style={{ gap: 1, minWidth: 0 }}>
                         <span style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.45, color: 'var(--foreground)' }}>{n.text}</span>
@@ -100,7 +100,7 @@ export function AppShell() {
           )}
 
           {menuOpen && (
-            <div className="card" style={{ position: 'absolute', top: 40, right: 0, width: 260, borderRadius: 12, boxShadow: 'var(--elev-3)', color: 'var(--foreground)' }}>
+            <div className="card" data-ds="account-menu" style={{ position: 'absolute', top: 40, right: 0, width: 260, borderRadius: 12, boxShadow: 'var(--elev-3)', color: 'var(--foreground)' }}>
               <div className="col" style={{ gap: 2, padding: '14px 16px', borderBottom: '1px solid var(--border)' }}>
                 <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--foreground)' }}>{acct.name}</span>
                 <span className="hint">{email}</span>
@@ -117,7 +117,7 @@ export function AppShell() {
       } />
 
       {kiosk.active && (
-        <div className="kiosk-bar" role="status">
+        <div className="kiosk-bar" data-ds="kiosk-banner" role="status">
           <Icon name="lock" size={13} />
           <span>Session link active — this device is limited to New onboarding until the session ends.</span>
           <button type="button" onClick={kiosk.end}>End session</button>
@@ -129,7 +129,7 @@ export function AppShell() {
       </main>
 
       {toast && (
-        <div className="toast" role="status" aria-live="polite">
+        <div className="toast" data-ds="toast" role="status" aria-live="polite">
           <Icon name={toast.icon} size={14} />
           <span>{toast.text}</span>
         </div>

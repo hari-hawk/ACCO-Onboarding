@@ -14,6 +14,7 @@ export interface StageBarProps {
 export function StageBar({ stages, activeId, completed = [], onSelect, style }: StageBarProps) {
   return (
     <ol
+      data-ds="stage-bar"
       style={{
         display: 'flex',
         alignItems: 'center',

@@ -30,6 +30,8 @@ export function Button({ variant = 'primary', size = 'md', iconLeft, iconRight, 
   return (
     <button
       type="button"
+      data-ds={variant === 'action' || variant === 'primary' ? 'cta-primary' : 'cta-secondary'}
+      data-ds-variant={variant}
       disabled={disabled}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

@@ -42,6 +42,7 @@ export function Modal({ width, label, padded = true, children, style }: ModalPro
     <div
       ref={ref}
       tabIndex={-1}
+      data-ds="dialog"
       className="modal"
       role="dialog"
       aria-modal="true"

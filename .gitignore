@@ -2,3 +2,6 @@ node_modules
 dist
 .DS_Store
 *.local
+# Google Drive conflict copies
+* 2.*
+* 2/

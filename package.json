@@ -4,10 +4,13 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/design-reference.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/design-reference.mjs",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "design-reference": "node scripts/design-reference.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.544.0",

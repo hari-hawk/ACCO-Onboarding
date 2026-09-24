@@ -52,7 +52,7 @@ export function SessionTimer() {
   if (left === null) return null;
   const tone = left <= 60_000 ? 'pill-bad' : left <= 5 * 60_000 ? 'pill-warn' : 'pill-navy';
   return (
-    <span className={`pill ${tone} mono`} role="timer" aria-live="off" aria-label={`Session time remaining ${mmss(left)}`} title={`Data is cleared when the ${SESSION_MINUTES}-minute session ends`} style={{ padding: '3px 10px', fontSize: 12 }}>
+    <span className={`pill ${tone} mono`} data-ds="session-timer" role="timer" aria-live="off" aria-label={`Session time remaining ${mmss(left)}`} title={`Data is cleared when the ${SESSION_MINUTES}-minute session ends`} style={{ padding: '3px 10px', fontSize: 12 }}>
       <Icon name="timer" size={12} />
       {mmss(left)} left
     </span>

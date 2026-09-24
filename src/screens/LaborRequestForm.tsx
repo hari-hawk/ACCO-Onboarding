@@ -25,7 +25,7 @@ function initialForm(mode: FormMode, draftKey: string | undefined, acctName: str
 
 function Section({ n, title, sub, actions, children, right }: { n: number; title: string; sub?: string; actions?: React.ReactNode; right?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="card card-open" style={{ flex: '0 0 auto' }}>
+    <div className="card card-open" data-ds="section-card" style={{ flex: '0 0 auto' }}>
       <div className="card-head" style={{ padding: '14px 24px' }}>
         <div className="row" style={{ gap: 10 }}>
           <span className="step-no">{n}</span>
@@ -143,7 +143,7 @@ export function LaborRequestForm({ mode }: { mode: FormMode }) {
     <div className="page-fill">
       <div className="page-bar" style={{ padding: '14px 40px' }}>
         <div className="col" style={{ gap: 2 }}>
-          <h1 className="h1">{isEdit ? `Edit labor request ${id ?? ''}` : 'Labor request — draft'}</h1>
+          <h1 className="h1" data-ds="page-title">{isEdit ? `Edit labor request ${id ?? ''}` : 'Labor request — draft'}</h1>
           <span className="sub">{isEdit ? 'Changes sync to the HCM labor records instantly — email the union again if the request changes' : 'Request ID assigned on submit · created instantly in HCM through the platform connection'}</span>
         </div>
         <div className="row" style={{ gap: 8 }}>
@@ -175,42 +175,42 @@ export function LaborRequestForm({ mode }: { mode: FormMode }) {
           </div>
         }>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '16px 24px', padding: '16px 24px' }}>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <span className="label">Labor requestor<span className="req"> *</span></span>
               <div className="locked"><span>{form.requestor || acct.name}</span><span className="locked-tag"><Icon name="lock" size={10} />Signed-in user</span></div>
             </div>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <span className="label">Onboarding specialist<span className="req"> *</span></span>
               <SelectMenu ariaLabel="Onboarding specialist" value={form.specialist} placeholder="Select…" options={[acct.name, 'Priya Raman']} onChange={(v) => set('specialist', v)} />
             </div>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <span className="label">Hiring manager<span className="req"> *</span></span>
               <SelectMenu ariaLabel="Hiring manager" value={form.hm} placeholder="Select…" options={OPTS.hm} onChange={(v) => set('hm', v)} />
             </div>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <label htmlFor="f-start" className="label">Start date and start time<span className="req"> *</span></label>
               <DateTimePicker id="f-start" withTime ariaLabel="Start date and start time" placeholder="MM/DD/YYYY · HH:MM" value={form.start} onChange={(v) => set('start', v)} />
             </div>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <span className="label">Expiration<span className="req"> *</span></span>
               <div className="row" style={{ gap: 16, height: 32 }}>
                 <label className="row" style={{ gap: 6, fontSize: 12, cursor: 'pointer' }}><input type="radio" name="exp" checked={form.expiration === 'until'} onChange={() => set('expiration', 'until')} style={{ accentColor: 'var(--primary)' }} />Until filled</label>
                 <label className="row" style={{ gap: 6, fontSize: 12, cursor: 'pointer' }}><input type="radio" name="exp" checked={form.expiration === 'date'} onChange={() => set('expiration', 'date')} style={{ accentColor: 'var(--primary)' }} />On date</label>
               </div>
             </div>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <span className="label">Supervisor</span>
               <SelectMenu ariaLabel="Supervisor" value={form.supervisor} placeholder="Select…" options={OPTS.supervisor} onChange={(v) => set('supervisor', v)} />
             </div>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <span className="label">Department<span className="req"> *</span></span>
               <SelectMenu ariaLabel="Department" value={form.dept} placeholder="Select…" options={OPTS.dept} onChange={(v) => set('dept', v)} />
             </div>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <span className="label">Location<span className="req"> *</span></span>
               <SelectMenu ariaLabel="Location" value={form.location} placeholder="Select…" options={OPTS.location} onChange={(v) => set('location', v)} />
             </div>
-            <div className="field">
+            <div className="field" data-ds="form-field">
               <span className="label">Special requests</span>
               <input className="input" aria-label="Special requests" placeholder="None" value={form.special} onChange={(e) => set('special', e.target.value)} />
             </div>
@@ -220,40 +220,40 @@ export function LaborRequestForm({ mode }: { mode: FormMode }) {
         <Section n={2} title="Job site & legal employer">
           <div className="two-col" style={{ gridTemplateColumns: '1.1fr 1fr', gap: '20px 32px', padding: '16px 24px' }}>
             <div className="col" style={{ gap: 16 }}>
-              <div className="field">
+              <div className="field" data-ds="form-field">
                 <label htmlFor="f-sitename" className="label">Job site name<span className="req"> *</span></label>
                 <input id="f-sitename" className="input" placeholder="e.g. LAX Terminal 9 — Central Utility Plant" value={form.siteName} onChange={(e) => set('siteName', e.target.value)} />
               </div>
-              <div className="field">
+              <div className="field" data-ds="form-field">
                 <label htmlFor="f-siteaddr" className="label">Job site address<span className="req"> *</span></label>
                 <textarea id="f-siteaddr" className="textarea" rows={3} placeholder={'Street\nCity, State ZIP'} value={form.siteAddress} onChange={(e) => set('siteAddress', e.target.value)} />
                 <span className="hint">Street, city, state and ZIP — appears verbatim in the union email</span>
               </div>
-              <div className="field">
+              <div className="field" data-ds="form-field">
                 <label htmlFor="f-siteinstr" className="label">Additional job site instructions</label>
                 <textarea id="f-siteinstr" className="textarea" rows={2} style={{ minHeight: 48, lineHeight: 1.5 }} placeholder="Badging, parking, PPE, check-in…" value={form.siteInstr} onChange={(e) => set('siteInstr', e.target.value)} />
               </div>
             </div>
             <div className="col" style={{ gap: 16 }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                <div className="field">
+                <div className="field" data-ds="form-field">
                   <label htmlFor="f-cname" className="label">Contact name<span className="req"> *</span></label>
                   <input id="f-cname" className="input" placeholder="Site contact" value={form.contactName} onChange={(e) => set('contactName', e.target.value)} />
                 </div>
-                <div className="field">
+                <div className="field" data-ds="form-field">
                   <label htmlFor="f-cphone" className="label">Contact phone<span className="req"> *</span></label>
                   <input id="f-cphone" className="input mono" placeholder="(000) 000-0000" value={form.contactPhone} onChange={(e) => set('contactPhone', e.target.value)} />
                 </div>
               </div>
-              <div className="field">
+              <div className="field" data-ds="form-field">
                 <label htmlFor="f-cemail" className="label">Contact email<span className="req"> *</span></label>
                 <input id="f-cemail" type="email" className="input" placeholder="name@accoes.com" value={form.contactEmail} onChange={(e) => set('contactEmail', e.target.value)} />
               </div>
-              <div className="field">
+              <div className="field" data-ds="form-field">
                 <span className="label">Legal employer<span className="req"> *</span></span>
                 <SelectMenu ariaLabel="Legal employer" value={form.employer} placeholder="Select legal employer…" options={OPTS.employer} onChange={(v) => set('employer', v)} />
               </div>
-              <div className="field">
+              <div className="field" data-ds="form-field">
                 <span className="label">Business unit<span className="req"> *</span></span>
                 <SelectMenu ariaLabel="Business unit" value={form.bu} placeholder="Select business unit…" options={OPTS.bu} onChange={(v) => set('bu', v)} />
               </div>
@@ -298,19 +298,19 @@ function ClassRow({ c, i, canRemove, onChange, onRemove }: { c: FormClass; i: nu
         </div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr 1.3fr 130px 1.6fr', gap: 16, padding: '12px 16px' }} className="cls-grid">
-        <div className="field">
+        <div className="field" data-ds="form-field">
           <span className="label-sm">Trade code and trade *</span>
           <SelectMenu ariaLabel="Trade code and trade" value={c.trade} placeholder="Select trade code…" options={OPTS.trade} onChange={(v) => onChange({ trade: v })} />
         </div>
-        <div className="field">
+        <div className="field" data-ds="form-field">
           <span className="label-sm">Trade level *</span>
           <SelectMenu ariaLabel="Trade level" value={c.level} placeholder="Level…" options={OPTS.level} onChange={(v) => onChange({ level: v })} />
         </div>
-        <div className="field">
+        <div className="field" data-ds="form-field">
           <span className="label-sm">Business title *</span>
           <SelectMenu ariaLabel="Business title" value={c.title} placeholder="Title…" options={OPTS.title} onChange={(v) => onChange({ title: v })} />
         </div>
-        <div className="field">
+        <div className="field" data-ds="form-field">
           <span className="label-sm">Openings *</span>
           <div className="row" style={{ justifyContent: 'space-between', gap: 10, height: 32, padding: '0 6px', border: '1px solid var(--border-strong)', borderRadius: 8, fontSize: 12 }}>
             <button type="button" className="ghost-icon" aria-label="Fewer openings" style={{ width: 22, height: 22, padding: 0, justifyContent: 'center' }} onClick={() => onChange({ open: Math.max(1, c.open - 1) })}><Icon name="minus" size={12} /></button>
@@ -318,7 +318,7 @@ function ClassRow({ c, i, canRemove, onChange, onRemove }: { c: FormClass; i: nu
             <button type="button" className="ghost-icon" aria-label="More openings" style={{ width: 22, height: 22, padding: 0, justifyContent: 'center' }} onClick={() => onChange({ open: c.open + 1 })}><Icon name="plus" size={12} /></button>
           </div>
         </div>
-        <div className="field">
+        <div className="field" data-ds="form-field">
           <span className="label-sm">Union code &amp; description *</span>
           <UnionMultiSelect value={c.union} options={UNIONS} onChange={(v) => onChange({ union: v })} openExternal={unionOpen} onOpenChange={setUnionOpen} />
         </div>

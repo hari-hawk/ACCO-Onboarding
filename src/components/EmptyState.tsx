@@ -13,7 +13,7 @@ export interface EmptyStateProps {
 /** Names the missing thing and offers the next action — never an apology. */
 export function EmptyState({ icon, iconSize = 24, title, body, action, card = true }: EmptyStateProps) {
   const inner = (
-    <div className="col" style={{ alignItems: 'center', gap: 12, textAlign: 'center', maxWidth: 420 }}>
+    <div className="col" data-ds="empty-state" style={{ alignItems: 'center', gap: 12, textAlign: 'center', maxWidth: 420 }}>
       <span className="round-icon" style={{ width: 48, height: 48, background: 'var(--muted)', color: 'var(--muted-foreground)' }}>
         <Icon name={icon} size={iconSize} />
       </span>

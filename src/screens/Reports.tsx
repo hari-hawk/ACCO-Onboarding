@@ -84,7 +84,7 @@ export function Reports() {
     <div className="page">
       <div className="row" style={{ justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
         <div className="col" style={{ gap: 2 }}>
-          <h1 className="h1">Reports</h1>
+          <h1 className="h1" data-ds="page-title">Reports</h1>
           <span className="sub">{specialist ? 'Onboarding throughput and document quality' : 'Labor request and union response performance'} — {rangeLabel}</span>
         </div>
         <div className="range-seg" role="group" aria-label="Date range">
@@ -99,7 +99,7 @@ export function Reports() {
       </div>
 
       <div className="two-col" style={{ gridTemplateColumns: '1.6fr 420px' }}>
-        <div className="card" style={{ minWidth: 0 }}>
+        <div className="card" data-ds="section-card" style={{ minWidth: 0 }}>
           <div className="card-head card-head-sm">
             <h2 className="h3">History — processed records</h2>
             <Button variant="outline" size="xs" iconLeft="download">Export</Button>
@@ -111,7 +111,7 @@ export function Reports() {
                 {pageRows.map((h) => {
                   const o = OUTCOME_STYLE[h.outcome] ?? OUTCOME_STYLE.Completed;
                   return (
-                    <button key={h.ref} type="button" className="trow" aria-label={`Open record ${h.ref}`} style={{ gridTemplateColumns: COLS, gap: 10 }} onClick={() => openRow(h.ref)}>
+                    <button key={h.ref} type="button" className="trow" data-ds="table-row" aria-label={`Open record ${h.ref}`} style={{ gridTemplateColumns: COLS, gap: 10 }} onClick={() => openRow(h.ref)}>
                       <span className="mono" style={{ fontSize: 12, fontWeight: 600, color: 'var(--primary)' }}>{h.ref}</span>
                       <span className="truncate" style={{ fontSize: 12 }}>{h.detail}</span>
                       <span className="hint" style={{ lineHeight: 1.4 }}>{h.confirm}</span>
@@ -133,7 +133,7 @@ export function Reports() {
         </div>
 
         <div className="col" style={{ gap: 16, minWidth: 0 }}>
-          <div className="card">
+          <div className="card" data-ds="section-card">
             <div className="card-head card-head-sm"><h2 className="h3">{specialist ? 'Onboardings by stage' : 'Openings by union'}</h2></div>
             <div className="col" style={{ gap: 12, padding: '16px 20px' }}>
               {bars.map((b) => (
@@ -149,7 +149,7 @@ export function Reports() {
               ))}
             </div>
           </div>
-          <div className="card">
+          <div className="card" data-ds="section-card">
             <div className="card-head card-head-sm"><h2 className="h3">Insights</h2></div>
             <div className="col" style={{ gap: 12, padding: '14px 20px' }}>
               {insights.map((ins) => (
